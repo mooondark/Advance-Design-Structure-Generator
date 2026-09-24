@@ -42,3 +42,14 @@ def test_error_is_logged_and_project_closed(monkeypatch):
     assert ok is False
     assert calls[-1] == "close"
     assert any("log_erreur" in l for l in lines)
+
+
+def test_summary_colons_aligned_with_long_labels(monkeypatch):
+    _patch(monkeypatch)
+    lines = []
+    rows = [("Court", 1), ("Section elements CHS88.9x3C tres long", 180)]
+    run_generation(SimpleNamespace(build=lambda host, p, log: rows),
+                   {"fto": "x", "nouveau_projet": True}, "http://h", lines.append)
+    summary = [l for l in lines if l.startswith("  ") and ": " in l]
+    assert len(summary) == 2
+    assert len({l.index(": ") for l in summary}) == 1

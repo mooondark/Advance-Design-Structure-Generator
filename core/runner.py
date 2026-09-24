@@ -33,8 +33,9 @@ def run_generation(structure, p, host, log):
         log(SEP)
         log(T("syn_succes"))
         log(SEP)
+        width = max([26] + [len(str(label)) + 1 for label, _ in rows])
         for label, value in rows:
-            log(f"  {label:<26}: {value}")
+            log(f"  {label:<{width}}: {value}")
         log(SEP)
         return True
     except Exception as ex:

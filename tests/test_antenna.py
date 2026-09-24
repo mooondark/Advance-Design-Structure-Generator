@@ -50,6 +50,9 @@ def test_build_counts(monkeypatch):
 
     assert calls == {"lin": 480 + 8, "sup": 4 + 4, "sec": 2}
     assert rows[-1][1] == 480 + 8 + 4 + 4
+    values = dict(rows)
+    assert values["[syn_section]"] == 480
+    assert values["[syn_section_guy]"] == 8
 
 
 @pytest.mark.parametrize("text", ["abc", "20;40", "20,,x"])

@@ -454,9 +454,9 @@ def build(host, p, log):
             (T("syn_guy_heights"), p["guy_heights"]),
             (T("syn_anchor_distance"), meters(p["anchor_distance"])),
         ]
-    rows.append((T("syn_section", nom=p["section"]), ""))
+    rows.append((T("syn_section", nom=p["section"]), counts["vertical"] + counts["horizontal"] + counts["bracing"]))
     if counts["guy_wires"]:
-        rows.append((T("syn_section_guy", nom=p["section_guy"]), ""))
+        rows.append((T("syn_section_guy", nom=p["section_guy"]), counts["guy_wires"]))
     rows += [
         (T("syn_vertical"), counts["vertical"]),
         (T("syn_horizontal"), counts["horizontal"]),
