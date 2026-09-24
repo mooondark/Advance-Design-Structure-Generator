@@ -5,6 +5,7 @@ import streamlit as st
 
 from core import ad_api
 from core.i18n import T
+from core.layout import section
 
 KEY = "antenna"
 TITLE_KEY = "structure_antenna"
@@ -291,8 +292,7 @@ def _refill_guy_heights():
 
 
 def render_form():
-    st.markdown(f":material/square_foot: **{T('ui_web_geo')}**")
-    g1, g2, g3, g4 = st.columns(4)
+    g1, g2, g3, g4 = section("geo", ":material/square_foot:", T("ui_web_geo")).columns(4)
     g1.number_input(T("ui_height"), min_value=0.1, max_value=999.0, step=0.5, format="%.2f",
                     key=_k("height"), on_change=_refill_guy_heights)
     g2.number_input(T("ui_num_levels"), min_value=1, max_value=200, step=1, key=_k("num_levels"))
@@ -301,8 +301,8 @@ def render_form():
     g4.segmented_control(T("ui_base_type"), options=BASE_TYPES, format_func=lambda v: T(f"base_{v}"),
                          key=_k("base_type"), required=True)
 
-    st.markdown(f":material/cable: **{T('ui_web_haubans')}**")
-    h1, h2, h3, h4 = st.columns(4, vertical_alignment="bottom")
+    h1, h2, h3, h4 = section("haubans", ":material/cable:", T("ui_web_haubans")).columns(
+        4, vertical_alignment="bottom")
     h1.number_input(T("ui_guy_levels"), min_value=0, max_value=20, step=1,
                     key=_k("guy_levels"), on_change=_refill_guy_heights)
     h2.text_input(T("ui_guy_heights"), key=_k("guy_heights"), placeholder="20,40")

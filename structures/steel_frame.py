@@ -5,6 +5,7 @@ import streamlit as st
 
 from core import ad_api
 from core.i18n import T
+from core.layout import section
 
 KEY = "steel_frame"
 TITLE_KEY = "structure_steel_frame"
@@ -68,8 +69,8 @@ def _derive_geometry(p):
 
 
 def render_form():
-    st.markdown(f":material/square_foot: **{T('ui_web_geo')}**")
-    g1, g2, g3, g4 = st.columns(4)
+    geo = section("geo", ":material/square_foot:", T("ui_web_geo"))
+    g1, g2, g3, g4 = geo.columns(4)
     g1.number_input(T("ui_nb_portiques"), min_value=2, max_value=25, step=1, key=_k("n"))
     g1.number_input(T("ui_portee"), min_value=0.1, max_value=999.0, step=0.1, format="%.2f", key=_k("L"))
     g2.number_input(T("ui_entraxe"), min_value=0.1, max_value=999.0, step=0.1, format="%.2f", key=_k("e"))
@@ -80,12 +81,11 @@ def render_form():
     g4.segmented_control(T("ui_type_appui"), options=APPUIS, format_func=lambda v: T(f"appui_{v.lower()}"),
                          key=_k("TypeAppui"), required=True)
 
-    c1, c2 = st.columns(2)
+    c1, c2 = geo.columns(2)
     c1.checkbox(T("ui_creer_parois"), key=_k("creer_parois"))
     c2.checkbox(T("ui_creer_systemes"), key=_k("creer_systemes"))
 
-    st.markdown(f":material/straighten: **{T('ui_web_pannes')}**")
-    p1, p2, p3, p4 = st.columns(4)
+    p1, p2, p3, p4 = section("pannes", ":material/straighten:", T("ui_web_pannes")).columns(4)
     p1.number_input(T("ui_npg"), min_value=2, max_value=99, step=1, key=_k("Npg"))
     p2.number_input(T("ui_dbg"), min_value=0.0, max_value=999.0, step=0.05, format="%.2f", key=_k("Dbg"))
     p3.number_input(T("ui_npd"), min_value=2, max_value=99, step=1, key=_k("Npd"))

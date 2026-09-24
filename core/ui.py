@@ -7,6 +7,7 @@ import streamlit as st
 from core import ad_api
 from core.config import load_config, save_config
 from core.i18n import LANG_LABELS, T, load_language
+from core.layout import section
 from core.profiles import PROFILES
 from structures import STRUCTURES
 
@@ -65,6 +66,18 @@ _CSS = """
     details summary { padding: 6px 10px !important; font-size: 0.88rem !important; }
 
     h3 { padding: 0 !important; }
+
+    /* Cadres de section (core/layout.py) : titre pose sur la bordure */
+    div[class*="st-key-sec_"] { position: relative; overflow: visible; margin-top: 0.55rem;
+                                padding: 0.85rem 0.9rem 0.7rem !important; }
+    div[class*="st-key-sec_"] > div.stElementContainer:first-child { position: absolute; top: -0.72rem; left: 0.7rem;
+                                                                     width: auto !important; z-index: 1; }
+    div[class*="st-key-sec_"] > div.stElementContainer:first-child p { padding: 0 0.4rem; margin: 0; line-height: 1.4; }
+    /* Le titre masque le trait avec le fond de page : heritage depuis stApp, suit le changement de theme sans rerun */
+    [data-testid="stApp"] :has(div[class*="st-key-sec_"]),
+    div[class*="st-key-sec_"],
+    div[class*="st-key-sec_"] > div.stElementContainer:first-child,
+    div[class*="st-key-sec_"] > div.stElementContainer:first-child * { background-color: inherit !important; }
 </style>
 """
 
@@ -188,8 +201,8 @@ def _api_block():
 
 def project_panel():
     ss = st.session_state
-    st.markdown(f":material/folder: **{T('ui_web_projet')}**")
-    pj1, pj2, pj3 = st.columns([1, 2, 1], vertical_alignment="bottom")
+    pj1, pj2, pj3 = section("projet", ":material/folder:", T("ui_web_projet")).columns(
+        [1, 2, 1], vertical_alignment="bottom")
     pj1.checkbox(T("ui_nouveau_fichier"), key="project.new")
     with pj2:
         tc, bc = st.columns([5, 1], vertical_alignment="bottom")
@@ -207,10 +220,10 @@ def project_panel():
 
 def sections_panel(key, elements):
     ss = st.session_state
-    st.markdown(f":material/hardware: **{T('ui_web_sections')}**")
+    box = section("sections", ":material/hardware:", T("ui_web_sections"))
     items = list(elements.items()) + [("M", None)]
     for i in range(0, len(items), 2):
-        cols = st.columns([1, 2, 1, 2])
+        cols = box.columns([1, 2, 1, 2])
         for j, (name, spec) in enumerate(items[i:i + 2]):
             c_fam, c_prof = cols[2 * j], cols[2 * j + 1]
             if spec is None:
