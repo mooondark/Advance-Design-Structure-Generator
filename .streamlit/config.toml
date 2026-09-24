@@ -1,0 +1,18 @@
+[theme]
+base = "dark"
+primaryColor = "#1d4ed8"
+baseRadius = "6px"
+
+[theme.dark]
+primaryColor = "#1d4ed8"
+backgroundColor = "#0f1623"
+secondaryBackgroundColor = "#1e2634"
+textColor = "#e2e8f0"
+borderColor = "#2d3a50"
+
+[theme.light]
+primaryColor = "#1d4ed8"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#eef1f6"
+textColor = "#1e2634"
+borderColor = "#c9d2e0"
