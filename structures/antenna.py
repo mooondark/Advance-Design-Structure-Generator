@@ -301,9 +301,7 @@ def render_form():
                     key=_k("base_size"))
     g4.segmented_control(T("ui_base_type"), options=BASE_TYPES, format_func=lambda v: T(f"base_{v}"),
                          key=_k("base_type"), required=True)
-    # Meme emplacement que dans le Portique (moitie droite, sous la geometrie)
-    _c1, c2 = geo.columns(2)
-    c2.checkbox(T("ui_creer_systemes"), key=_k("creer_systemes"))
+    geo.checkbox(T("ui_creer_systemes"), key=_k("creer_systemes"))
 
     h1, h2, h3, _h4 = section("haubans", ":material/cable:", T("ui_web_haubans")).columns(4)
     h1.number_input(T("ui_guy_levels"), min_value=0, max_value=20, step=1,
