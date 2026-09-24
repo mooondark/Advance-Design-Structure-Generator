@@ -52,7 +52,9 @@ Chaque module de `structures/` expose :
 
 | Attribut | Description |
 |---|---|
-| `TITLE_KEY` | Cle i18n du libelle dans la liste deroulante |
+| `KEY` | Cle du registre (ex. `"antenna"`), prefixe des cles de session |
+| `TITLE_KEY` | Cle i18n `[common]` du libelle dans la liste deroulante |
+| `DEFAULT_MATERIAL` | Materiau par defaut (ex. `"S275"`) |
 | `ICON` | Icone Material Streamlit (ex. `:material/foundation:`) |
 | `ELEMENTS` | `{param: (label_key, [familles autorisees], profil_defaut)}` ; ordre = ordre d'affichage |
 | `DEFAULTS` | `{param: valeur}` pour la geometrie et les options propres |
@@ -126,7 +128,7 @@ Colonnes 2/3 (formulaire) et 1/3 (apercu), CSS compact de `steel_frame_web.py` (
 ## Configuration, langues, catalogue
 
 - `config.ini` : `[General]` avec `language`, `api_server_exe`, `structure`. Valeurs par defaut : `fr`, `C:\Program Files\Graitec\Advance Design\2027\Bin\AD.API.Srv.exe`, `steel_frame`.
-- Fichiers de langue : `[common]` pour les cles partagees, `[steel_frame]` et `[antenna]` pour les cles propres ou dont le texte differe entre les deux originaux. `T(key)` cherche dans la section de la structure active puis dans `[common]`. Cle absente : retourne `[key]`. Les replis `T(...) or "texte"` des originaux sont supprimes.
+- Fichiers de langue : `[common]` pour les cles presentes dans les deux originaux (en cas de texte different, la valeur du Portique, modele de l'interface, est retenue), `[steel_frame]` et `[antenna]` pour les cles propres a chaque original. Les cles non referencees par le nouveau code sont supprimees. `T(key)` cherche dans la section de la structure active puis dans `[common]`. Cle absente : retourne `[key]`. Les replis `T(...) or "texte"` des originaux sont supprimes.
 - `core/profiles.py` : module Python de donnees, `PROFILES = {famille: [noms]}` (35 familles, noms uniquement, aucune donnee mecanique). Il est versionne et distribue ; `AD_Profiles.md` ne l'est pas.
 - `tools/gen_profiles.py` : lit `AD_Profiles.md`, detecte `## Famille <nom>`, prend la premiere cellule de chaque ligne de tableau hors en-tete (`| name |`) et separateur (`|---|`), puis ecrit `core/profiles.py`. Ordre des profils = ordre du fichier. A relancer uniquement quand le catalogue Advance Design change.
 
