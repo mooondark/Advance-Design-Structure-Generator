@@ -30,7 +30,7 @@ Python 3 must be installed and available in the PATH.
 
 ## Adding a structure
 
-1. Create `structures/<name>.py` following the contract: `KEY`, `TITLE_KEY`, `ICON`, `DEFAULT_MATERIAL`, `ELEMENTS`, `DEFAULTS`, `render_form()`, `preview(p)`, `validate(p)`, `build(host, p, log)` (see the [spec](docs/superpowers/specs/2026-09-24-structure-generator-design.md), in French)
+1. Create `structures/<name>.py` following the contract: `KEY`, `TITLE_KEY`, `ICON`, `DEFAULT_MATERIAL`, `ELEMENTS`, `DEFAULTS`, `render_form()`, `preview(p)`, `validate(p)`, `build(host, p, log)` (examples: `structures/steel_frame.py`, `structures/antenna.py`)
 2. Register it in `STRUCTURES` (`structures/__init__.py`)
 3. Add its translations in `lang/*.ini`: a `[<name>]` section, and the `TITLE_KEY` key in `[common]`
 4. Run the tests: `python -m pytest` (the new structure's contract and translations are checked automatically)
