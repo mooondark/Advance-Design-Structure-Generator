@@ -3,7 +3,6 @@
 [Français](README.md) | English
 
 Parametric steel structure generator using the Advance Design API.
-Merges and replaces [SteelFrameGenerator](https://github.com/mooondark/SteelFrameGenerator) and Antenna Generator.
 
 ## Available structures
 
