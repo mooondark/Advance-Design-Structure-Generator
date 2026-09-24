@@ -10,7 +10,7 @@ Regrouper `Originals/SteelFrameGenerator` et `Originals/Antenna Generator` dans 
 Criteres de reussite :
 - Une liste deroulante choisit la structure (Portique, Antenne).
 - L'interface reprend le modele `steel_frame_web.py` et tient sur un ecran 1920x1080 sans defilement (hauteur utile visee : ~900 px).
-- Les profils sont choisis par famille puis par nom, depuis `AD_Profiles.md`, parmi les familles autorisees pour chaque element.
+- Les profils sont choisis par famille puis par nom, depuis le module `core/profiles.py`, parmi les familles autorisees pour chaque element.
 - Materiaux : S235, S275, S355, S450, S460.
 - Le comportement de generation des deux structures est identique a celui des originaux.
 
@@ -24,10 +24,10 @@ Structure Generator/
   start.bat                 # installe streamlit, requests, plotly puis lance app.py
   config.ini                # [General] language, api_server_exe, structure (ignore par git)
   .streamlit/config.toml    # theme (existant)
-  AD_Profiles.md            # catalogue des profils (source)
+  AD_Profiles.md            # export Advance Design local, non versionne (.gitignore), non distribue
   core/
     ad_api.py               # copie de advance_design_api.py, STEEL_PROPS + S450, S460
-    profiles.py             # families() -> {famille: [noms]}
+    profiles.py             # PROFILES = {famille: [noms]} genere, seule source des profils a l'execution
     i18n.py                 # LANG_LABELS, load_language(code), set_scope(structure), T(key, **kw)
     config.py               # get_app_dir, load_config, save_config
     ui.py                   # CSS compact + blocs communs
@@ -37,6 +37,8 @@ Structure Generator/
     steel_frame.py
     antenna.py              # inclut generate_antenna_tower (ex antenna_tower.py)
   lang/fr.ini, en.ini, pl.ini
+  tools/
+    gen_profiles.py         # regenere core/profiles.py depuis AD_Profiles.md (usage developpeur)
   tests/
 ```
 
@@ -123,18 +125,18 @@ Colonnes 2/3 (formulaire) et 1/3 (apercu), CSS compact de `steel_frame_web.py` (
 
 - `config.ini` : `[General]` avec `language`, `api_server_exe`, `structure`. Valeurs par defaut : `fr`, `C:\Program Files\Graitec\Advance Design\2027\Bin\AD.API.Srv.exe`, `steel_frame`.
 - Fichiers de langue : `[common]` pour les cles partagees, `[steel_frame]` et `[antenna]` pour les cles propres ou dont le texte differe entre les deux originaux. `T(key)` cherche dans la section de la structure active puis dans `[common]`. Cle absente : retourne `[key]`. Les replis `T(...) or "texte"` des originaux sont supprimes.
-- `core/profiles.py` : parcourt `AD_Profiles.md`, detecte `## Famille <nom>`, prend la premiere cellule de chaque ligne de tableau hors en-tete (`| name |`) et separateur (`|---|`). Resultat mis en cache (`st.cache_data`). Ordre des profils = ordre du fichier.
+- `core/profiles.py` : module Python de donnees, `PROFILES = {famille: [noms]}` (35 familles, noms uniquement, aucune donnee mecanique). Il est versionne et distribue ; `AD_Profiles.md` ne l'est pas.
+- `tools/gen_profiles.py` : lit `AD_Profiles.md`, detecte `## Famille <nom>`, prend la premiere cellule de chaque ligne de tableau hors en-tete (`| name |`) et separateur (`|---|`), puis ecrit `core/profiles.py`. Ordre des profils = ordre du fichier. A relancer uniquement quand le catalogue Advance Design change.
 
 ## Gestion des erreurs
 
 - Validation : `ValueError` affichee par `st.error`, pas d'appel API.
 - Generation : toute exception est journalisee, statut "echec", fermeture du projet tentee.
 - API non demarree / exe introuvable : messages existants des originaux, conserves.
-- `AD_Profiles.md` absent : `st.error` et arret de la page (`st.stop()`).
 
 ## Tests (pytest)
 
-- `profiles` : 35 familles detectees ; `HEA400` dans `HEA` ; `CHS88.9x3C` dans `CHSC`.
+- `profiles` : `PROFILES` contient 35 familles ; `HEA400` dans `HEA` ; `CHS88.9x3C` dans `CHSC`.
 - Registre : chaque structure expose tous les attributs du contrat ; chaque famille de `ELEMENTS` existe dans le catalogue ; chaque profil par defaut appartient a une de ses familles autorisees.
 - Antenne : tests de geometrie repris de `tests/test_antenna_tower.py` ; comptage des appels API repris de `tests/test_build_structure.py` (monkeypatch de `core.ad_api`).
 - Portique : comptage des appels API equivalent (poteaux, arbaletriers, pannes, appuis).

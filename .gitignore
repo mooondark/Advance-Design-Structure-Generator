@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 config.ini
 .pytest_cache/
+AD_Profiles.md
