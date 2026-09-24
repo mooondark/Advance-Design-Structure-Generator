@@ -1,0 +1,38 @@
+from core import i18n
+
+INI = r"""[common]
+a = A commun
+x = X commun
+fmt = Bonjour {nom}
+multi = ligne1\nligne2
+
+[antenna]
+x = X antenne
+"""
+
+
+def _load(tmp_path):
+    (tmp_path / "fr.ini").write_text(INI, encoding="utf-8")
+    i18n.load_language("fr", lang_dir=str(tmp_path))
+
+
+def test_scope_then_common(tmp_path):
+    _load(tmp_path)
+    i18n.set_scope("antenna")
+    assert i18n.T("x") == "X antenne"
+    assert i18n.T("a") == "A commun"
+    i18n.set_scope("steel_frame")
+    assert i18n.T("x") == "X commun"
+
+
+def test_format_and_newline(tmp_path):
+    _load(tmp_path)
+    assert i18n.T("fmt", nom="Bob") == "Bonjour Bob"
+    assert i18n.T("multi") == "ligne1\nligne2"
+
+
+def test_missing_key_and_file(tmp_path):
+    _load(tmp_path)
+    assert i18n.T("absente", n=1) == "[absente]"
+    i18n.load_language("pl", lang_dir=str(tmp_path))
+    assert i18n.T("a") == "[a]"
