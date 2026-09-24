@@ -22,6 +22,7 @@ Hors perimetre : beton, bois, sauvegarde des valeurs de geometrie, donnees de pr
 Structure Generator/
   app.py                    # point d'entree Streamlit + lanceur PyInstaller
   start.bat                 # installe streamlit, requests, plotly puis lance app.py
+  CHANGELOG.md              # historique : version, date, sommaire des changements importants
   config.ini                # [General] language, api_server_exe, structure (ignore par git)
   .streamlit/config.toml    # theme (existant)
   AD_Profiles.md            # export Advance Design local, non versionne (.gitignore), non distribue
@@ -148,3 +149,10 @@ Colonnes 2/3 (formulaire) et 1/3 (apercu), CSS compact de `steel_frame_web.py` (
 - `start.bat` unique, lance `app.py`, installe `streamlit requests plotly` (option `-nodep` conservee).
 - Lanceur PyInstaller de `steel_frame_web.py` conserve dans `app.py`.
 - Version 2.0.
+- `CHANGELOG.md` : une entree par version, la plus recente en haut, format :
+  ```
+  ## 2.0 - 2026-09-24
+  - Fusion de SteelFrameGenerator (1.32) et Antenna Generator (1.0) en une seule application
+  - ...
+  ```
+  Mis a jour a chaque changement de version (`VERSION` dans `app.py`).
