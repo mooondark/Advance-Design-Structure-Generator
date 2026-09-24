@@ -25,13 +25,13 @@ def _generate(key, structure, p):
     state = ui.form_state(key, p)
     fto = ui.project_path()
     if fto is None:
-        st.stop()
+        return
     p = {**p, "fto": fto, "nouveau_projet": st.session_state["project.new"]}
     try:
         structure.validate(p)
     except ValueError as ex:
         st.error(str(ex))
-        st.stop()
+        return
     host = st.session_state["settings.host"].strip().rstrip("/")
     lines = []
     with st.spinner(T("ui_generation_en_cours")):
@@ -80,6 +80,8 @@ def main():
 
     if clicked:
         _generate(key, structure, p)
+
+    ui.footer()
 
 
 def _launch_as_exe():

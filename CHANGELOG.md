@@ -3,6 +3,7 @@
 ## 2.1 - 2026-09-24
 - Sections du formulaire encadrees, titre pose sur la bordure (suit le theme clair/sombre sans rechargement)
 - Antenne : "Organiser en systemes" deplace dans la section Geometrie, comme pour le Portique
+- Pied de page : liens vers le depot GitHub, le depot de l'API Graitec et le site Graitec (FR/UK/PL selon la langue)
 - Le message de reussite ou d'echec disparait des qu'on change de structure, d'option ou de projet, ou qu'on arrete l'API
 - Selecteur de structure n'est plus masque par la barre Streamlit ; espacement vertical reduit
 - Hauteurs de haubans validees meme sans hauban, valeur `nan` rejetee

@@ -110,3 +110,17 @@ def test_result_cleared_on_api_stop(generated):
     generated.button(key="api_stop").click().run()
     assert not generated.exception, generated.exception
     assert len(generated.success) == 0
+
+
+@pytest.mark.parametrize("lang, site", [("fr", "https://graitec.com/fr/"),
+                                         ("en", "https://graitec.com/uk/"),
+                                         ("pl", "https://graitec.com/pl/")])
+def test_footer_links_follow_language(cfg_file, lang, site):
+    at = _run()
+    at.selectbox(key="settings.lang").set_value(lang).run()
+    footer = [c.value for c in at.caption if "github.com/mooondark" in c.value]
+    assert len(footer) == 1
+    assert "https://github.com/mooondark/Advance-Design-Structure-Generator" in footer[0]
+    assert "https://github.com/Graitec-Group/advance-design-api" in footer[0]
+    assert site in footer[0]
+    assert "[footer_" not in footer[0]

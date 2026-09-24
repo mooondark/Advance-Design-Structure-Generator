@@ -168,8 +168,6 @@ def settings_panel():
         c2.text_input(T("ui_url_api_ad"), key="settings.host")
         st.text_input(T("ui_chemin_exe"), key="settings.exe",
                       on_change=lambda: save_config(api_server_exe=st.session_state["settings.exe"]))
-        st.caption("[GitHub API](https://github.com/Graitec-Group/advance-design-api) · "
-                   "[Graitec](https://www.graitec.com)")
 
 
 def _api_block():
@@ -299,6 +297,13 @@ def actions_row():
         elif st.session_state.last_result == "ok":
             st.success(T("ui_generation_reussie"))
     return clicked
+
+
+def footer():
+    st.divider()
+    st.caption(f"[{T('footer_github')}](https://github.com/mooondark/Advance-Design-Structure-Generator) - "
+               f"[{T('footer_api')}](https://github.com/Graitec-Group/advance-design-api) - "
+               f"[{T('footer_site')}]({T('footer_site_url')})", text_alignment="center")
 
 
 def _journal_body():
