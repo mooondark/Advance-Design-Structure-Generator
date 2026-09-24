@@ -29,6 +29,6 @@ def set_scope(name):
 def T(key, **kw):
     for section in (_scope, "common"):
         if _parser.has_option(section, key):
-            value = _parser.get(section, key).replace("\n", "\n")
+            value = _parser.get(section, key).replace("\\n", "\n")
             return value.format(**kw) if kw else value
     return f"[{key}]"
