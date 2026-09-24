@@ -27,17 +27,6 @@ Python 3 doit être installé et présent dans le PATH.
 - `start.bat -nodep` : lance sans vérifier les dépendances
 - Ou : `python -m streamlit run app.py`
 
-## Ajouter une structure
-
-1. Créer `structures/<nom>.py` en respectant le contrat : `KEY`, `TITLE_KEY`, `ICON`, `DEFAULT_MATERIAL`, `ELEMENTS`, `DEFAULTS`, `render_form()`, `preview(p)`, `validate(p)`, `build(host, p, log)` (exemples : `structures/steel_frame.py`, `structures/antenna.py`)
-2. L'inscrire dans `STRUCTURES` (`structures/__init__.py`)
-3. Ajouter ses traductions dans `lang/*.ini` : une section `[<nom>]`, et la clé `TITLE_KEY` dans `[common]`
-4. Lancer les tests : `python -m pytest` (le contrat et les traductions de la nouvelle structure sont vérifiés automatiquement)
-
-## Catalogue des profilés
-
-`core/profiles.py` contient les noms des profilés par famille. Il est généré par `tools/gen_profiles.py` à partir d'un export `AD_Profiles.md` du catalogue Advance Design (non fourni).
-
 ## Documentation
 
 - [Historique des versions](CHANGELOG.md)
