@@ -58,6 +58,16 @@ def test_bad_guy_heights_is_validation_error(text):
         antenna.validate(_p(guy_heights=text))
 
 
+def test_bad_guy_heights_rejected_without_guys():
+    with pytest.raises(ValueError, match="ui_guy_heights_invalid"):
+        antenna.validate(_p(guy_levels=0, guy_heights="abc"))
+
+
+def test_nan_guy_height_rejected():
+    with pytest.raises(ValueError, match="val_guy_range"):
+        antenna.validate(_p(guy_levels=1, guy_heights="nan"))
+
+
 def test_guy_heights_order_and_count():
     with pytest.raises(ValueError, match="val_guy_order"):
         antenna.validate(_p(guy_heights="40,20"))

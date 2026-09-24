@@ -370,16 +370,17 @@ def validate(p):
     if float(p["base_size"]) <= 0:
         errors.append(T("val_base_size"))
 
+    # Parse meme sans haubans : build() parse toujours le champ.
+    try:
+        gh = parse_heights(p["guy_heights"])
+    except ValueError:
+        raise ValueError(T("ui_guy_heights_invalid"))
     gl = int(p["guy_levels"])
     if gl > 0:
-        try:
-            gh = parse_heights(p["guy_heights"])
-        except ValueError:
-            raise ValueError(T("ui_guy_heights_invalid"))
         if len(gh) != gl:
             errors.append(T("val_guy_count", n=gl))
         else:
-            if any(h <= 0 or h > float(p["height"]) for h in gh):
+            if any(not math.isfinite(h) or h <= 0 or h > float(p["height"]) for h in gh):
                 errors.append(T("val_guy_range", h=p["height"]))
             if any(gh[i] <= gh[i - 1] for i in range(1, len(gh))):
                 errors.append(T("val_guy_order"))
