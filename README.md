@@ -3,7 +3,6 @@
 Français | [English](README_EN.md)
 
 Générateur de structures métalliques paramétriques avec l'API d'Advance Design.
-Regroupe et remplace [SteelFrameGenerator](https://github.com/mooondark/SteelFrameGenerator) et Antenna Generator.
 
 ## Structures disponibles
 
