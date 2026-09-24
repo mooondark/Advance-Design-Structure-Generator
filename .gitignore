@@ -4,3 +4,4 @@ config.ini
 .pytest_cache/
 AD_Profiles.md
 API Data/
+.superpowers/
