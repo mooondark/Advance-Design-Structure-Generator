@@ -3,7 +3,7 @@ import os
 import pytest
 from streamlit.testing.v1 import AppTest
 
-from core import config, i18n
+from core import config, i18n, runner
 from core.profiles import PROFILES
 
 APP = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "app.py")
@@ -60,3 +60,53 @@ def test_invalid_guy_heights_preview(cfg_file):
     at.text_input(key="antenna.guy_heights").set_value("abc").run()
     assert not at.exception, at.exception
     assert len(at.info) == 1
+
+
+@pytest.fixture
+def generated(cfg_file, monkeypatch):
+    # Generation simulee reussie : AppTest reexecute app.py, qui reimporte run_generation depuis core.runner.
+    monkeypatch.setattr(runner, "run_generation", lambda s, p, host, log: True)
+    at = _run()
+    at.button(key="generate").click().run()
+    assert not at.exception, at.exception
+    assert len(at.success) == 1
+    return at
+
+
+def test_result_kept_on_plain_rerun(generated):
+    generated.run()
+    assert len(generated.success) == 1
+
+
+def test_result_cleared_on_option_change(generated):
+    generated.number_input(key="steel_frame.n").set_value(6).run()
+    assert len(generated.success) == 0
+
+
+def test_result_cleared_on_structure_change(generated):
+    generated.selectbox(key="structure").set_value("antenna").run()
+    assert len(generated.success) == 0
+
+
+def test_result_cleared_on_project_change(generated):
+    generated.text_input(key="project.name").set_value("autre").run()
+    assert len(generated.success) == 0
+
+
+class _FakeApi:
+    def poll(self):
+        return None
+
+    def terminate(self):
+        pass
+
+    def wait(self, timeout=None):
+        return 0
+
+
+def test_result_cleared_on_api_stop(generated):
+    generated.session_state["api_proc"] = _FakeApi()
+    generated.run()
+    generated.button(key="api_stop").click().run()
+    assert not generated.exception, generated.exception
+    assert len(generated.success) == 0

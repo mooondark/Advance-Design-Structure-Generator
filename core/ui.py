@@ -177,13 +177,15 @@ def _api_block():
     proc = ss.api_proc
     # Pas de legende d'etat : le libelle du bouton (Demarrer / Arreter) porte l'etat, 35 px gagnes en 1080p.
     if proc is not None and proc.poll() is None:
-        if st.button(T("ui_btn_stop_api"), icon=":material/stop:", help=T("ui_api_active"), width="stretch"):
+        if st.button(T("ui_btn_stop_api"), key="api_stop", icon=":material/stop:", help=T("ui_api_active"),
+                     width="stretch"):
             try:
                 proc.terminate()
                 proc.wait(timeout=5)
             except Exception:
                 proc.kill()
             ss.api_proc = None
+            ss.last_result = None
             st.rerun()
     else:
         if st.button(T("ui_btn_start_api"), icon=":material/play_arrow:", help=T("ui_api_inactive"),
@@ -242,6 +244,13 @@ def collect_params(key, structure):
     return {n: st.session_state[f"{key}.{n}"] for n in names}
 
 
+def form_state(key, p):
+    """Empreinte de tout ce que l'utilisateur peut modifier : le resultat affiche ne vaut que pour elle."""
+    ss = st.session_state
+    return repr((key, sorted(p.items()), ss["project.new"], ss["project.name"], ss["project.fto"],
+                 ss["settings.host"]))
+
+
 def project_path():
     ss = st.session_state
     if ss["project.new"]:
@@ -278,7 +287,8 @@ def preview_panel(key, p):
 
 def actions_row():
     c1, c2, c3 = st.columns([3, 1, 3])
-    clicked = c1.button(T("ui_btn_creer"), icon=":material/play_arrow:", type="primary", width="stretch")
+    clicked = c1.button(T("ui_btn_creer"), key="generate", icon=":material/play_arrow:", type="primary",
+                        width="stretch")
     if c2.button("", icon=":material/delete:", help=T("ui_btn_effacer"), width="stretch"):
         st.session_state.log_lines = []
         st.session_state.last_result = None

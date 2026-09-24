@@ -21,7 +21,8 @@ VERSION = "2.1"
 _SG_STREAMLIT_WORKER = "_SG_STREAMLIT_WORKER"
 
 
-def _generate(structure, p):
+def _generate(key, structure, p):
+    state = ui.form_state(key, p)
     fto = ui.project_path()
     if fto is None:
         st.stop()
@@ -37,6 +38,7 @@ def _generate(structure, p):
         ok = run_generation(structure, p, host, lines.append)
     st.session_state.log_lines = lines
     st.session_state.last_result = "ok" if ok else "error"
+    st.session_state.result_state = state
     st.rerun()
 
 
@@ -66,6 +68,9 @@ def main():
     p = ui.collect_params(key, structure)
     with col_preview:
         ui.preview_panel(key, p)
+    # Le message de resultat disparait des que la structure, une option ou le projet change.
+    if st.session_state.get("result_state") != ui.form_state(key, p):
+        st.session_state.last_result = None
 
     col_actions, col_journal = st.columns([2, 1], gap="medium")
     with col_actions:
@@ -74,7 +79,7 @@ def main():
         ui.journal_button()
 
     if clicked:
-        _generate(structure, p)
+        _generate(key, structure, p)
 
 
 def _launch_as_exe():

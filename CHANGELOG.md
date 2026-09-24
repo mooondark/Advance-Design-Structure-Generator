@@ -3,6 +3,7 @@
 ## 2.1 - 2026-09-24
 - Sections du formulaire encadrees, titre pose sur la bordure (suit le theme clair/sombre sans rechargement)
 - Antenne : "Organiser en systemes" deplace dans la section Geometrie, comme pour le Portique
+- Le message de reussite ou d'echec disparait des qu'on change de structure, d'option ou de projet, ou qu'on arrete l'API
 - Selecteur de structure n'est plus masque par la barre Streamlit ; espacement vertical reduit
 - Hauteurs de haubans validees meme sans hauban, valeur `nan` rejetee
 - Langue et structure active propres a chaque onglet (plus d'interference entre sessions)
