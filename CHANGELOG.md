@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.1 - 2026-09-24
+- Sections du formulaire encadrees, titre pose sur la bordure (suit le theme clair/sombre sans rechargement)
+- Antenne : "Organiser en systemes" deplace dans la section Geometrie, comme pour le Portique
+- Selecteur de structure n'est plus masque par la barre Streamlit ; espacement vertical reduit
+- Hauteurs de haubans validees meme sans hauban, valeur `nan` rejetee
+- Langue et structure active propres a chaque onglet (plus d'interference entre sessions)
+- Une traduction avec un parametre inconnu ne fait plus planter l'application
+- Tests : toute nouvelle structure est verifiee automatiquement (contrat, titre dans `[common]`)
+
 ## 2.0 - 2026-09-24
 - Fusion de SteelFrameGenerator (1.32) et Antenna Generator (1.0) en une seule application, choix de la structure par liste deroulante
 - Architecture modulaire : une structure = un module dans `structures/` + une ligne dans le registre
