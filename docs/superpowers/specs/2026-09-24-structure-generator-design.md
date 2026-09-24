@@ -25,6 +25,7 @@ Structure Generator/
   config.ini                # [General] language, api_server_exe, structure (ignore par git)
   .streamlit/config.toml    # theme (existant)
   AD_Profiles.md            # export Advance Design local, non versionne (.gitignore), non distribue
+  API Data/                 # swagger.json + API_Commands.md : reference pour ajouter des appels a core/ad_api.py (.gitignore)
   core/
     ad_api.py               # copie de advance_design_api.py, STEEL_PROPS + S450, S460
     profiles.py             # PROFILES = {famille: [noms]} genere, seule source des profils a l'execution
