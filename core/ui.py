@@ -18,8 +18,9 @@ _CSS = """
     [data-testid="collapsedControl"] { display: none; }
     section[data-testid="stSidebar"] { display: none; }
 
-    .block-container { padding-top: 1.7rem !important; padding-bottom: 0.5rem !important; }
-    div[data-testid="stVerticalBlock"] > div { gap: 0.35rem !important; }
+    /* 3.4rem : le contenu commence sous la barre Streamlit (60 px, opaque) */
+    .block-container { padding-top: 3.4rem !important; padding-bottom: 0.5rem !important; }
+    div[data-testid="stVerticalBlock"] { gap: 0.5rem !important; }
 
     div[data-testid="stNumberInput"] input,
     div[data-testid="stTextInput"] input {

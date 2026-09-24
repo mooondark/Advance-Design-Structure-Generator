@@ -51,7 +51,7 @@ def main():
     i18n.set_scope(key)
     ui.inject_css()
 
-    h1, h2 = st.columns([3, 1], vertical_alignment="bottom")
+    h1, h2 = st.columns([3, 1], vertical_alignment="center")
     h1.subheader(f"{structure.ICON} Structure Generator  v{VERSION}")
     h2.selectbox(T("ui_structure"), list(STRUCTURES), format_func=lambda k: T(STRUCTURES[k].TITLE_KEY),
                  key="structure", label_visibility="collapsed",
