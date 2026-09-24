@@ -6,7 +6,7 @@ import streamlit as st
 
 from core import ad_api
 from core.config import load_config, save_config
-from core.i18n import LANG_LABELS, T
+from core.i18n import LANG_LABELS, T, load_language
 from core.profiles import PROFILES
 from structures import STRUCTURES
 
@@ -136,6 +136,8 @@ def native_pick(save, initial=""):
 
 def _browse():
     ss = st.session_state
+    # Callback : s'execute avant main(), dans un thread ou la langue n'est pas encore chargee.
+    load_language(ss["settings.lang"])
     field = "project.name" if ss["project.new"] else "project.fto"
     res = native_pick(save=ss["project.new"], initial=ss[field])
     if res is None:

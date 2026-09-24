@@ -3,7 +3,7 @@ import os
 import pytest
 from streamlit.testing.v1 import AppTest
 
-from core import config
+from core import config, i18n
 from core.profiles import PROFILES
 
 APP = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "app.py")
@@ -13,6 +13,8 @@ APP = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
 def cfg_file(tmp_path, monkeypatch):
     path = tmp_path / "config.ini"
     monkeypatch.setattr(config, "CONFIG_FILE", str(path))
+    # AppTest appelle format_func dans le thread du test : il lui faut la langue de l'app.
+    i18n.load_language("fr")
     return path
 
 

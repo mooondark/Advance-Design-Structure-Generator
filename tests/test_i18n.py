@@ -31,6 +31,25 @@ def test_format_and_newline(tmp_path):
     assert i18n.T("multi") == "ligne1\nligne2"
 
 
+def test_scope_is_per_thread(tmp_path):
+    # Streamlit execute chaque session dans son propre thread.
+    import threading
+    _load(tmp_path)
+    i18n.set_scope("antenna")
+    seen = []
+
+    def other_session():
+        i18n.load_language("fr", lang_dir=str(tmp_path))
+        i18n.set_scope("steel_frame")
+        seen.append(i18n.T("x"))
+
+    t = threading.Thread(target=other_session)
+    t.start()
+    t.join()
+    assert seen == ["X commun"]
+    assert i18n.T("x") == "X antenne"
+
+
 def test_missing_key_and_file(tmp_path):
     _load(tmp_path)
     assert i18n.T("absente", n=1) == "[absente]"
