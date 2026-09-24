@@ -50,6 +50,12 @@ def test_scope_is_per_thread(tmp_path):
     assert i18n.T("x") == "X antenne"
 
 
+def test_unknown_placeholder_does_not_crash(tmp_path):
+    (tmp_path / "fr.ini").write_text("[common]\nmsg = Section {inconnu} OK\n", encoding="utf-8")
+    i18n.load_language("fr", lang_dir=str(tmp_path))
+    assert i18n.T("msg", nom="x") == "Section {inconnu} OK"
+
+
 def test_missing_key_and_file(tmp_path):
     _load(tmp_path)
     assert i18n.T("absente", n=1) == "[absente]"

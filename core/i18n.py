@@ -32,5 +32,9 @@ def T(key, **kw):
     for section in (getattr(_state, "scope", "common"), "common"):
         if parser.has_option(section, key):
             value = parser.get(section, key).replace("\\n", "\n")
-            return value.format(**kw) if kw else value
+            try:
+                return value.format(**kw) if kw else value
+            except (KeyError, IndexError):
+                # Traduction avec un {parametre} inconnu : texte brut plutot qu'un plantage.
+                return value
     return f"[{key}]"

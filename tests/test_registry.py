@@ -8,11 +8,12 @@ CONTRACT = ["KEY", "TITLE_KEY", "ICON", "DEFAULT_MATERIAL", "ELEMENTS", "DEFAULT
             "render_form", "preview", "validate", "build"]
 
 
-def test_order():
-    assert list(STRUCTURES) == ["steel_frame", "antenna"]
+def test_fallback_structure_is_first():
+    # La premiere structure du registre sert de repli (config.ini inconnu).
+    assert next(iter(STRUCTURES)) == "steel_frame"
 
 
-@pytest.mark.parametrize("key", ["steel_frame", "antenna"])
+@pytest.mark.parametrize("key", list(STRUCTURES))
 def test_contract(key):
     s = STRUCTURES[key]
     for attr in CONTRACT:

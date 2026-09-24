@@ -65,7 +65,7 @@ Chaque module de `structures/` expose :
 
 `p` contient les parametres de la structure, les profils choisis (cles de `ELEMENTS`), `M` (materiau), `fto` et `nouveau_projet`.
 
-Ajouter une structure = creer `structures/<nom>.py` respectant ce contrat + une ligne dans `STRUCTURES` + une section `[<nom>]` dans chaque fichier de langue.
+Ajouter une structure = creer `structures/<nom>.py` respectant ce contrat + une ligne dans `STRUCTURES` + une section `[<nom>]` dans chaque fichier de langue + la cle `TITLE_KEY` (ex. `structure_<nom>`) dans la section `[common]` de chaque fichier de langue (le selecteur affiche tous les titres quelle que soit la structure active). `tests/test_registry.py` et `tests/test_lang_files.py` verifient automatiquement toute structure inscrite.
 
 ### Portique (`steel_frame`)
 
