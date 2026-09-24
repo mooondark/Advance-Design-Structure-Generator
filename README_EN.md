@@ -9,6 +9,8 @@ Parametric steel structure generator using the Advance Design API.
 - **Steel frame**: 3D duo-pitch portal frames, purlins, walls, self-weight
 - **Antenna tower**: lattice tower with triangular or square base, configurable number of levels, optional guy wires and anchors
 
+<img width="1809" height="799" alt="image" src="https://github.com/user-attachments/assets/98dc13b3-15bb-4683-93ef-a133dff99d5e" />
+
 ## Features
 
 - Structure selection from a drop-down list
