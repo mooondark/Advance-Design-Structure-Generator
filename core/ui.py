@@ -4,7 +4,6 @@ import subprocess
 
 import streamlit as st
 
-from core import ad_api
 from core.config import load_config, save_config
 from core.i18n import LANG_LABELS, T, load_language
 from core.layout import section
@@ -218,8 +217,9 @@ def project_panel():
         st.warning(T("ui_dialog_indispo"))
 
 
-def sections_panel(key, elements):
+def sections_panel(key, structure):
     ss = st.session_state
+    elements = structure.ELEMENTS
     box = section("sections", ":material/hardware:", T("ui_web_sections"))
     items = list(elements.items()) + [("M", None)]
     for i in range(0, len(items), 2):
@@ -227,7 +227,7 @@ def sections_panel(key, elements):
         for j, (name, spec) in enumerate(items[i:i + 2]):
             c_fam, c_prof = cols[2 * j], cols[2 * j + 1]
             if spec is None:
-                c_fam.selectbox(T("ui_materiau"), ad_api.MATERIALS, key=f"{key}.M")
+                c_fam.selectbox(T("ui_materiau"), structure.MATERIALS, key=f"{key}.M")
                 continue
             label_key, families, _default = spec
             fam = c_fam.selectbox(T(label_key), families, key=f"{key}.{name}.fam")

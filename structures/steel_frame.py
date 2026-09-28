@@ -10,6 +10,7 @@ from core.layout import section
 KEY = "steel_frame"
 TITLE_KEY = "structure_steel_frame"
 ICON = ":material/foundation:"
+MATERIALS = ad_api.STEEL_GRADES
 DEFAULT_MATERIAL = "S275"
 _MAIN = ["HEA", "HEB", "HEM", "IPE"]
 ELEMENTS = {

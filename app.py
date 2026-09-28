@@ -64,7 +64,7 @@ def main():
         ui.settings_panel()
         ui.project_panel()
         structure.render_form()
-        ui.sections_panel(key, structure.ELEMENTS)
+        ui.sections_panel(key, structure)
     p = ui.collect_params(key, structure)
     with col_preview:
         ui.preview_panel(key, p)

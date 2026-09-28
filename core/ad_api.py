@@ -22,7 +22,17 @@ STEEL_PROPS = {
     "S450": {"e": 210_000_000, "ro": 7850, "nu": 0.3, "damping": 0.02, "alpha": 1.2e-5, "sigmaE": 450_000},
     "S460": {"e": 210_000_000, "ro": 7850, "nu": 0.3, "damping": 0.02, "alpha": 1.2e-5, "sigmaE": 460_000},
 }
-MATERIALS = list(STEEL_PROPS)
+STEEL_GRADES = list(STEEL_PROPS)
+
+# Betons EN 1992-1-1 : e = Ecm, fck en kN/m2 ; armatures B500 (fyk, es).
+CONCRETE_PROPS = {
+    "C20/25": {"e": 30_000_000, "fck": 20_000},
+    "C25/30": {"e": 31_000_000, "fck": 25_000},
+    "C30/37": {"e": 33_000_000, "fck": 30_000},
+    "C35/45": {"e": 34_000_000, "fck": 35_000},
+    "C40/50": {"e": 35_000_000, "fck": 40_000},
+}
+_CONCRETE_COMMON = {"nu": 0.2, "damping": 0.05, "alpha": 1e-5, "ro": 2500, "fyk": 500_000, "es": 200_000_000}
 
 
 def check_port(host: str) -> None:
@@ -85,12 +95,11 @@ def close_project(host):
 
 
 def create_material(host, name):
-    props = STEEL_PROPS[name]
-    data  = _check(
-        _SESSION.post(f"{host}/api/Model/materials/CreateMaterial",
-                      json={"$type": "MaterialSteel", "name": name, **props}),
-        "CreateMaterial"
-    )
+    if name in CONCRETE_PROPS:
+        body = {"$type": "MaterialReinforcedConcrete", "name": name, **_CONCRETE_COMMON, **CONCRETE_PROPS[name]}
+    else:
+        body = {"$type": "MaterialSteel", "name": name, **STEEL_PROPS[name]}
+    data = _check(_SESSION.post(f"{host}/api/Model/materials/CreateMaterial", json=body), "CreateMaterial")
     return data["data"]["value"]
 
 
@@ -105,7 +114,7 @@ def create_section(host, section_name):
 
 def create_linear_element(host, pt_start, pt_end, mat_id, sec_id,
                            beam_type="beamWStandardBending", relaxation=None,
-                           user_name=None, system_ids=None):
+                           user_name=None, system_ids=None, excentration=None):
     payload = {
         "$type":          "ElementLinear",
         "geomPtStart":    {"x": pt_start[0], "y": pt_start[1], "z": pt_start[2]},
@@ -121,6 +130,9 @@ def create_linear_element(host, pt_start, pt_end, mat_id, sec_id,
         payload["userName"] = user_name
     if system_ids is not None:
         payload["systemIDs"] = [{"value": eid} for eid in system_ids]
+    if excentration is not None:
+        payload["sectionExcentration"] = {"option": excentration, "deltaY1": 0.0, "deltaZ1": 0.0,
+                                          "deltaY2": 0.0, "deltaZ2": 0.0, "consideredInFEM": True}
     data = _check(
         _SESSION.post(f"{host}/api/Model/elements/CreateElement", json=payload),
         "CreateElement(linear)"
@@ -204,3 +216,38 @@ def create_load_area(host, pts_list, label="LoadArea", span_direction=None,
         f"CreateLoadArea({label})"
     )
     return data["data"]["value"]
+
+
+def create_planar_element(host, pts, mat_id, thickness, eccentricity, user_name=None, system_ids=None):
+    payload = {
+        "$type":        "ElementPlanar",
+        "geomPtsList":  [{"x": p[0], "y": p[1], "z": p[2]} for p in pts],
+        "material":     {"value": mat_id},
+        "elementType":  "shell",
+        "eccentricity": eccentricity,
+        "eccentricityCOnsideredAlsoForFEM": True,
+        "thicknessIn1stVertex": thickness,
+        "slopeX": 0.0,
+        "slopeY": 0.0,
+        "supportingElement": False,
+    }
+    if user_name is not None:
+        payload["userName"] = user_name
+    if system_ids is not None:
+        payload["systemIDs"] = [{"value": eid} for eid in system_ids]
+    data = _check(
+        _SESSION.post(f"{host}/api/Model/elements/CreateElement", json=payload),
+        "CreateElement(planar)"
+    )
+    return data["data"]["value"]
+
+
+def update_system_level(host, eid, name, number, bottom, top):
+    # Fonction "Niveau" d'un systeme racine (recursive aux sous-systemes cote AD).
+    _check(
+        _SESSION.post(f"{host}/api/Model/elements/UpdateInformationalElement",
+                      params={"elementId": eid},
+                      json={"$type": "StructuralSystem", "userName": name, "parentID": {"value": 0},
+                            "isLevel": True, "levelNumber": number, "levelBottom": bottom, "levelTop": top}),
+        f"UpdateSystemLevel({name})"
+    )

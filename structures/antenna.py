@@ -10,6 +10,7 @@ from core.layout import section
 KEY = "antenna"
 TITLE_KEY = "structure_antenna"
 ICON = ":material/cell_tower:"
+MATERIALS = ad_api.STEEL_GRADES
 DEFAULT_MATERIAL = "S235"
 _FAMILIES = ["CHSC", "CHSH", "RHSC", "RHSH", "SHSC", "SHSH", "L", "Li"]
 ELEMENTS = {
