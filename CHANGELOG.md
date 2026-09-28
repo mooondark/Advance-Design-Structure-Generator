@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2 - 2026-09-28
+- Nouvelle structure "Portique beton" : batiment beton arme multi-etages (grille Nx x Ny, Ne etages de hauteurs identiques ou differentes), poteaux de facade / interieurs, poutres de rive / interieures excentrees vers le bas, dalle par niveau, appuis en pied
+- Systemes par etage (APPUI, POTEAU, VOILE, POUTRE, DALLE) avec la fonction Niveau activee
+- Sections beton saisies par forme (carre, rectangulaire, circulaire) puis dimensions en cm
+- Materiaux propres a chaque structure : aciers S235 a S460, betons C20/25 a C40/50
+
 ## 2.1 - 2026-09-24
 - Sections du formulaire encadrees, titre pose sur la bordure (suit le theme clair/sombre sans rechargement)
 - Antenne : "Organiser en systemes" deplace dans la section Geometrie, comme pour le Portique

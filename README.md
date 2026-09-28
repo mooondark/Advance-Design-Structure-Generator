@@ -8,6 +8,7 @@ Générateur de structures métalliques paramétriques avec l'API d'Advance Desi
 
 - **Portique métallique** : portiques 3D à deux versants, pannes, parois, poids propre
 - **Pylône antenne** : treillis à base triangulaire ou carrée, nombre de niveaux paramétrable, haubans et ancrages optionnels
+- **Portique béton** : bâtiment en béton armé multi-étages (grille de poteaux, poutres excentrées, dalles), organisé en systèmes par étage avec la fonction Niveau
 
 <img width="1828" height="865" alt="image" src="https://github.com/user-attachments/assets/9a289b6b-88b0-4890-8010-23456a831d7c" />
 
@@ -15,7 +16,7 @@ Générateur de structures métalliques paramétriques avec l'API d'Advance Desi
 
 - Choix de la structure par liste déroulante
 - Profilés choisis par famille puis par nom (catalogue Advance Design), familles adaptées à chaque élément
-- Matériaux : S235, S275, S355, S450, S460
+- Matériaux : aciers S235 à S460, bétons C20/25 à C40/50 ; sections béton saisies par forme puis dimensions
 - Aperçu 3D interactif
 - Démarrage et arrêt du serveur API depuis l'interface
 - Langues incluses : FR/EN/PL

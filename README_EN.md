@@ -8,6 +8,7 @@ Parametric steel structure generator using the Advance Design API.
 
 - **Steel frame**: 3D duo-pitch portal frames, purlins, walls, self-weight
 - **Antenna tower**: lattice tower with triangular or square base, configurable number of levels, optional guy wires and anchors
+- **Concrete frame**: multi-storey reinforced concrete building (column grid, eccentric beams, slabs), organised in storey systems with the Level function
 
 <img width="1809" height="799" alt="image" src="https://github.com/user-attachments/assets/98dc13b3-15bb-4683-93ef-a133dff99d5e" />
 
@@ -15,7 +16,7 @@ Parametric steel structure generator using the Advance Design API.
 
 - Structure selection from a drop-down list
 - Sections chosen by family then by name (Advance Design catalogue), with families suited to each member
-- Materials: S235, S275, S355, S450, S460
+- Materials: steel S235 to S460, concrete C20/25 to C40/50; concrete sections entered by shape then dimensions
 - Interactive 3D preview
 - Start and stop the API server from the interface
 - Included languages: FR/EN/PL
