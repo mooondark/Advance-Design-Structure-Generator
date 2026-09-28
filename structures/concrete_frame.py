@@ -27,9 +27,9 @@ DEFAULTS = {
 }
 APPUIS = ["HINGED", "FIXED"]
 SUB_SYSTEMS = ["POTEAU", "VOILE", "POUTRE", "DALLE"]
-# Fibre superieure de la poutre au niveau du plancher (option acceptee et relue par l'API ; position a verifier dans AD).
-POUTRE_EXCENTRATION = "centre_haut"
-# Excentrement de dalle en fraction de Ep : -0.5 vise la face superieure au niveau (valeur relue par l'API ; signe a verifier dans AD).
+# Poutre sous le plancher, fibre superieure au niveau (verifie dans AD : "centre_haut" la placait au-dessus).
+POUTRE_EXCENTRATION = "centre_bas"
+# Excentrement de dalle en fraction de Ep : -0.5 place la face superieure au niveau (verifie dans AD).
 DALLE_EXCENTREMENT = -0.5
 
 

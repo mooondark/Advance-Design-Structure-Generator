@@ -151,3 +151,8 @@ def test_preview():
     assert len(cf.preview(_p()).data) == 4
     with pytest.raises(ValueError):
         cf.preview(_p(He="abc"))
+
+
+def test_beam_eccentricity_verified_in_ad():
+    # Verifie visuellement dans Advance Design : "centre_bas" place la poutre sous le plancher.
+    assert cf.POUTRE_EXCENTRATION == "centre_bas"
