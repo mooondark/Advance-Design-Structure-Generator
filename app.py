@@ -12,6 +12,7 @@ import streamlit as st
 from core import i18n, ui
 from core.config import save_config
 from core.i18n import T
+from core.layout import choice
 from core.runner import run_generation
 from structures import STRUCTURES
 
@@ -55,9 +56,8 @@ def main():
 
     h1, h2 = st.columns([3, 1], vertical_alignment="center")
     h1.subheader(f"{structure.ICON} Structure Generator  v{VERSION}")
-    h2.selectbox(T("ui_structure"), list(STRUCTURES), format_func=lambda k: T(STRUCTURES[k].TITLE_KEY),
-                 key="structure", label_visibility="collapsed",
-                 on_change=lambda: save_config(structure=st.session_state.structure))
+    choice(h2, "select", T("ui_structure"), list(STRUCTURES), "structure", lambda k: T(STRUCTURES[k].TITLE_KEY),
+           on_change=lambda: save_config(structure=st.session_state.structure), label_visibility="collapsed")
 
     col_form, col_preview = st.columns([2, 1], gap="medium")
     with col_form:

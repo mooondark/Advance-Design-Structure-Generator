@@ -6,7 +6,7 @@ import streamlit as st
 from core import ad_api
 from core.concrete import parse_section, section_height
 from core.i18n import T
-from core.layout import section
+from core.layout import choice, section
 
 KEY = "concrete_frame"
 TITLE_KEY = "structure_concrete_frame"
@@ -98,8 +98,7 @@ def render_form():
     h1.number_input(T("ui_ne"), min_value=1, max_value=50, step=1, key=_k("Ne"), on_change=_refill_heights)
     h2.text_input(T("ui_he"), key=_k("He"), placeholder="3.0,3.0")
     h3.number_input(T("ui_ep"), min_value=0.01, max_value=2.0, step=0.01, format="%.2f", key=_k("Ep"))
-    h4.segmented_control(T("ui_type_appui"), options=APPUIS, format_func=lambda v: T(f"appui_{v.lower()}"),
-                         key=_k("TypeAppui"), required=True)
+    choice(h4, "segmented", T("ui_type_appui"), APPUIS, _k("TypeAppui"), lambda v: T(f"appui_{v.lower()}"))
     geo.checkbox(T("ui_creer_systemes"), key=_k("creer_systemes"))
 
 

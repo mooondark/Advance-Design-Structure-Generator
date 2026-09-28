@@ -5,7 +5,7 @@ import streamlit as st
 
 from core import ad_api
 from core.i18n import T
-from core.layout import section
+from core.layout import choice, section
 
 KEY = "steel_frame"
 TITLE_KEY = "structure_steel_frame"
@@ -79,8 +79,7 @@ def render_form():
     g3.number_input(T("ui_hg"), min_value=0.1, max_value=999.0, step=0.1, format="%.2f", key=_k("Hg"))
     g3.number_input(T("ui_fleche"), min_value=0.01, max_value=999.0, step=0.01, format="%.2f", key=_k("F"))
     g4.number_input(T("ui_hd"), min_value=0.1, max_value=999.0, step=0.1, format="%.2f", key=_k("Hd"))
-    g4.segmented_control(T("ui_type_appui"), options=APPUIS, format_func=lambda v: T(f"appui_{v.lower()}"),
-                         key=_k("TypeAppui"), required=True)
+    choice(g4, "segmented", T("ui_type_appui"), APPUIS, _k("TypeAppui"), lambda v: T(f"appui_{v.lower()}"))
 
     c1, c2 = geo.columns(2)
     c1.checkbox(T("ui_creer_parois"), key=_k("creer_parois"))

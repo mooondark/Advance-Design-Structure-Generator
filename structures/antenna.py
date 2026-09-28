@@ -5,7 +5,7 @@ import streamlit as st
 
 from core import ad_api
 from core.i18n import T
-from core.layout import section
+from core.layout import choice, section
 
 KEY = "antenna"
 TITLE_KEY = "structure_antenna"
@@ -300,8 +300,7 @@ def render_form():
     g2.number_input(T("ui_num_levels"), min_value=1, max_value=200, step=1, key=_k("num_levels"))
     g3.number_input(T("ui_base_size"), min_value=0.01, max_value=99.0, step=0.05, format="%.2f",
                     key=_k("base_size"))
-    g4.segmented_control(T("ui_base_type"), options=BASE_TYPES, format_func=lambda v: T(f"base_{v}"),
-                         key=_k("base_type"), required=True)
+    choice(g4, "segmented", T("ui_base_type"), BASE_TYPES, _k("base_type"), lambda v: T(f"base_{v}"))
     geo.checkbox(T("ui_creer_systemes"), key=_k("creer_systemes"))
 
     h1, h2, h3, _h4 = section("haubans", ":material/cable:", T("ui_web_haubans")).columns(4)

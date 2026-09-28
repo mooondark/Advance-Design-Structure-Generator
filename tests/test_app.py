@@ -26,7 +26,7 @@ def _run():
 
 def test_both_structures_render(cfg_file):
     at = _run()
-    at.selectbox(key="structure").set_value("antenna").run()
+    at.selectbox(key="structure@fr").set_value("antenna").run()
     assert not at.exception, at.exception
     assert config.load_config()["structure"] == "antenna"
 
@@ -34,8 +34,8 @@ def test_both_structures_render(cfg_file):
 def test_values_survive_structure_switch(cfg_file):
     at = _run()
     at.number_input(key="steel_frame.n").set_value(7).run()
-    at.selectbox(key="structure").set_value("antenna").run()
-    at.selectbox(key="structure").set_value("steel_frame").run()
+    at.selectbox(key="structure@fr").set_value("antenna").run()
+    at.selectbox(key="structure@fr").set_value("steel_frame").run()
     assert not at.exception, at.exception
     assert at.number_input(key="steel_frame.n").value == 7
 
@@ -50,12 +50,12 @@ def test_family_change_resets_profile(cfg_file):
 def test_unknown_structure_in_config(cfg_file):
     cfg_file.write_text("[General]\nstructure = retiree\n", encoding="utf-8")
     at = _run()
-    assert at.selectbox(key="structure").value == "steel_frame"
+    assert at.selectbox(key="structure@fr").value == "steel_frame"
 
 
 def test_invalid_guy_heights_preview(cfg_file):
     at = _run()
-    at.selectbox(key="structure").set_value("antenna").run()
+    at.selectbox(key="structure@fr").set_value("antenna").run()
     at.number_input(key="antenna.guy_levels").set_value(2).run()
     at.text_input(key="antenna.guy_heights").set_value("abc").run()
     assert not at.exception, at.exception
@@ -84,7 +84,7 @@ def test_result_cleared_on_option_change(generated):
 
 
 def test_result_cleared_on_structure_change(generated):
-    generated.selectbox(key="structure").set_value("antenna").run()
+    generated.selectbox(key="structure@fr").set_value("antenna").run()
     assert len(generated.success) == 0
 
 
@@ -127,7 +127,7 @@ def test_footer_links_follow_language(cfg_file, lang, site):
 
 
 def _concrete(at):
-    at.selectbox(key="structure").set_value("concrete_frame").run()
+    at.selectbox(key="structure@fr").set_value("concrete_frame").run()
     assert not at.exception, at.exception
     return at
 
@@ -136,7 +136,7 @@ def test_concrete_shape_switch_changes_dimension_fields(cfg_file):
     at = _concrete(_run())
     keys = [w.key for w in at.number_input]
     assert "concrete_frame.Sbr.d2" in keys
-    at.selectbox(key="concrete_frame.Sbr.shape").set_value("C").run()
+    at.selectbox(key="concrete_frame:Sbr:shape@fr").set_value("C").run()
     assert "concrete_frame.Sbr.d2" not in [w.key for w in at.number_input]
     assert at.session_state["concrete_frame.Sbr"].startswith("C")
 
@@ -167,7 +167,29 @@ def test_concrete_ne_with_unreadable_heights(cfg_file):
 def test_concrete_dimensions_survive_structure_switch(cfg_file):
     at = _concrete(_run())
     at.number_input(key="concrete_frame.Spf.d1").set_value(45).run()
-    at.selectbox(key="structure").set_value("steel_frame").run()
-    at.selectbox(key="structure").set_value("concrete_frame").run()
+    at.selectbox(key="structure@fr").set_value("steel_frame").run()
+    at.selectbox(key="structure@fr").set_value("concrete_frame").run()
     assert at.number_input(key="concrete_frame.Spf.d1").value == 45
     assert at.session_state["concrete_frame.Spf"] == "C45"
+
+
+def _switch_language(at, current, new):
+    # AppTest formate les options dans le thread du test : il lui faut la langue affichee par l'app.
+    i18n.load_language(current)
+    at.selectbox(key="settings.lang").set_value(new).run()
+    i18n.load_language(new)
+    assert not at.exception, at.exception
+
+
+def test_language_round_trip_keeps_translated_choices(cfg_file):
+    # Streamlit memorise le libelle affiche d'une selectbox / segmented_control : apres FR -> PL -> FR,
+    # l'ancien libelle ne doit jamais etre relu (bug KeyError 'Portique béton').
+    at = _concrete(_run())
+    at.selectbox(key="concrete_frame:Sbr:shape@fr").set_value("C").run()
+    _switch_language(at, "fr", "pl")
+    assert "structure@pl" in [w.key for w in at.selectbox]
+    _switch_language(at, "pl", "fr")
+    assert at.session_state["structure"] == "concrete_frame"
+    assert at.session_state["concrete_frame.Sbr.shape"] == "C"
+    assert at.session_state["concrete_frame.TypeAppui"] == "FIXED"
+    assert at.selectbox(key="structure@fr").value == "concrete_frame"

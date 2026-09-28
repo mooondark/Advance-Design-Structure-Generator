@@ -7,7 +7,7 @@ import streamlit as st
 from core.concrete import SHAPES, parse_section, section_name
 from core.config import load_config, save_config
 from core.i18n import LANG_LABELS, T, load_language
-from core.layout import section
+from core.layout import choice, section
 from core.profiles import PROFILES
 from structures import STRUCTURES
 
@@ -238,8 +238,8 @@ def sections_panel(key, structure):
                 continue
             label_key, families, _default = spec
             if families == "beton":
-                shape = c_fam.selectbox(T(label_key), list(SHAPES), format_func=lambda s: T(f"shape_{s}"),
-                                        key=f"{key}.{name}.shape")
+                shape = choice(c_fam, "select", T(label_key), list(SHAPES), f"{key}.{name}.shape",
+                               lambda s: T(f"shape_{s}"))
                 if SHAPES[shape] == 1:
                     c_prof.number_input(T(f"dim_{shape}"), min_value=5, max_value=300, step=5,
                                         key=f"{key}.{name}.d1")

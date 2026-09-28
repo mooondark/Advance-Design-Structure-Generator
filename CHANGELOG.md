@@ -5,6 +5,7 @@
 - Systemes par etage (APPUI, POTEAU, VOILE, POUTRE, DALLE) avec la fonction Niveau activee
 - Sections beton saisies par forme (carre, rectangulaire, circulaire) puis dimensions en cm
 - Materiaux propres a chaque structure : aciers S235 a S460, betons C20/25 a C40/50
+- Correctif : changer de langue ne plante plus l'application (choix de structure, formes de section, type d'appui et de base gardent leur valeur)
 
 ## 2.1 - 2026-09-24
 - Sections du formulaire encadrees, titre pose sur la bordure (suit le theme clair/sombre sans rechargement)
