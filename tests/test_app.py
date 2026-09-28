@@ -124,3 +124,50 @@ def test_footer_links_follow_language(cfg_file, lang, site):
     assert "https://github.com/Graitec-Group/advance-design-api" in footer[0]
     assert site in footer[0]
     assert "[footer_" not in footer[0]
+
+
+def _concrete(at):
+    at.selectbox(key="structure").set_value("concrete_frame").run()
+    assert not at.exception, at.exception
+    return at
+
+
+def test_concrete_shape_switch_changes_dimension_fields(cfg_file):
+    at = _concrete(_run())
+    keys = [w.key for w in at.number_input]
+    assert "concrete_frame.Sbr.d2" in keys
+    at.selectbox(key="concrete_frame.Sbr.shape").set_value("C").run()
+    assert "concrete_frame.Sbr.d2" not in [w.key for w in at.number_input]
+    assert at.session_state["concrete_frame.Sbr"].startswith("C")
+
+
+def test_concrete_dimensions_build_section_name(cfg_file):
+    at = _concrete(_run())
+    at.number_input(key="concrete_frame.Sbr.d1").set_value(25).run()
+    at.number_input(key="concrete_frame.Sbr.d2").set_value(60).run()
+    assert at.session_state["concrete_frame.Sbr"] == "R25*60"
+
+
+def test_concrete_ne_fills_heights(cfg_file):
+    at = _concrete(_run())
+    at.number_input(key="concrete_frame.Ne").set_value(3).run()
+    assert at.text_input(key="concrete_frame.He").value == "3.0,3.0,3.0"
+
+
+def test_concrete_ne_with_unreadable_heights(cfg_file):
+    at = _concrete(_run())
+    at.text_input(key="concrete_frame.He").set_value("abc").run()
+    assert not at.exception, at.exception
+    assert len(at.info) == 1
+    at.number_input(key="concrete_frame.Ne").set_value(2).run()
+    assert not at.exception, at.exception
+    assert at.text_input(key="concrete_frame.He").value == "3.0,3.0"
+
+
+def test_concrete_dimensions_survive_structure_switch(cfg_file):
+    at = _concrete(_run())
+    at.number_input(key="concrete_frame.Spf.d1").set_value(45).run()
+    at.selectbox(key="structure").set_value("steel_frame").run()
+    at.selectbox(key="structure").set_value("concrete_frame").run()
+    assert at.number_input(key="concrete_frame.Spf.d1").value == 45
+    assert at.session_state["concrete_frame.Spf"] == "C45"

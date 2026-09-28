@@ -4,6 +4,7 @@ import subprocess
 
 import streamlit as st
 
+from core.concrete import SHAPES, parse_section, section_name
 from core.config import load_config, save_config
 from core.i18n import LANG_LABELS, T, load_language
 from core.layout import section
@@ -107,7 +108,13 @@ def init_session():
             defaults[f"{skey}.{name}"] = value
         for name, (_label, families, profile) in s.ELEMENTS.items():
             defaults[f"{skey}.{name}"] = profile
-            defaults[f"{skey}.{name}.fam"] = next(f for f in families if profile in PROFILES[f])
+            if families == "beton":
+                shape, dims = parse_section(profile)
+                defaults[f"{skey}.{name}.shape"] = shape
+                defaults[f"{skey}.{name}.d1"] = dims[0]
+                defaults[f"{skey}.{name}.d2"] = dims[-1]
+            else:
+                defaults[f"{skey}.{name}.fam"] = next(f for f in families if profile in PROFILES[f])
         defaults[f"{skey}.M"] = s.DEFAULT_MATERIAL
     for k, v in defaults.items():
         ss[k] = v
@@ -230,6 +237,20 @@ def sections_panel(key, structure):
                 c_fam.selectbox(T("ui_materiau"), structure.MATERIALS, key=f"{key}.M")
                 continue
             label_key, families, _default = spec
+            if families == "beton":
+                shape = c_fam.selectbox(T(label_key), list(SHAPES), format_func=lambda s: T(f"shape_{s}"),
+                                        key=f"{key}.{name}.shape")
+                if SHAPES[shape] == 1:
+                    c_prof.number_input(T(f"dim_{shape}"), min_value=5, max_value=300, step=5,
+                                        key=f"{key}.{name}.d1")
+                    dims = [ss[f"{key}.{name}.d1"]]
+                else:
+                    cb, ch = c_prof.columns(2)
+                    cb.number_input(T("dim_b"), min_value=5, max_value=300, step=5, key=f"{key}.{name}.d1")
+                    ch.number_input(T("dim_h"), min_value=5, max_value=300, step=5, key=f"{key}.{name}.d2")
+                    dims = [ss[f"{key}.{name}.d1"], ss[f"{key}.{name}.d2"]]
+                ss[f"{key}.{name}"] = section_name(shape, dims)
+                continue
             fam = c_fam.selectbox(T(label_key), families, key=f"{key}.{name}.fam")
             names = PROFILES[fam]
             if ss[f"{key}.{name}"] not in names:

@@ -10,17 +10,18 @@ from structures import STRUCTURES
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Le code commun (app.py, core/) doit trouver ses cles dans [common] quelle que soit la structure active.
-SOURCES = {
-    "common": ["app.py", "core/ui.py", "core/runner.py"],
-    "steel_frame": ["structures/steel_frame.py"],
-    "antenna": ["structures/antenna.py"],
+SOURCES = {"common": ["app.py", "core/ui.py", "core/runner.py"],
+           **{key: [f"structures/{key}.py"] for key in STRUCTURES}}
+# Cles construites dynamiquement (format_func) : non detectees par la recherche de T("...").
+DYNAMIC = {
+    "common": {"shape_C", "shape_R", "shape_D", "dim_C", "dim_D"},
+    "steel_frame": {"appui_hinged", "appui_fixed"},
+    "antenna": {"base_triangle", "base_square"},
+    "concrete_frame": {"appui_hinged", "appui_fixed"},
 }
-# Cles non appelees par T("...") litteral : TITLE_KEY, libelles de ELEMENTS, format_func dynamiques.
-EXTRA = {
-    "common": set(),
-    "steel_frame": {"ui_sec_poteaux", "ui_sec_arbaletriers", "ui_sec_pannes", "appui_hinged", "appui_fixed"},
-    "antenna": {"ui_section", "ui_section_guy", "base_triangle", "base_square"},
-}
+EXTRA = {scope: DYNAMIC.get(scope, set()) | (
+    {label for label, _fam, _default in STRUCTURES[scope].ELEMENTS.values()} if scope in STRUCTURES else set())
+    for scope in SOURCES}
 
 
 def _keys(rel):
