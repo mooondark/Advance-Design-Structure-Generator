@@ -60,20 +60,21 @@ def _geometry(p):
     xs = [i * lx for i in range(nx + 1)]
     ys = [j * ly for j in range(ny + 1)]
     columns, beams, slabs = [], [], []
+    # "storey" = indice d'etage (0..Ne-1) : poteaux de Z_k a Z_(k+1) et plancher en tete a Z_(k+1).
     for k in range(1, len(z)):
         for i in range(nx + 1):
             for j in range(ny + 1):
-                columns.append({"level": k - 1, "facade": i in (0, nx) or j in (0, ny),
+                columns.append({"storey": k - 1, "facade": i in (0, nx) or j in (0, ny),
                                 "start": (xs[i], ys[j], z[k - 1]), "end": (xs[i], ys[j], z[k])})
         for j in range(ny + 1):
             for i in range(nx):
-                beams.append({"level": k, "rive": j in (0, ny),
+                beams.append({"storey": k - 1, "rive": j in (0, ny),
                               "start": (xs[i], ys[j], z[k]), "end": (xs[i + 1], ys[j], z[k])})
         for i in range(nx + 1):
             for j in range(ny):
-                beams.append({"level": k, "rive": i in (0, nx),
+                beams.append({"storey": k - 1, "rive": i in (0, nx),
                               "start": (xs[i], ys[j], z[k]), "end": (xs[i], ys[j + 1], z[k])})
-        slabs.append({"level": k, "pts": [(0.0, 0.0, z[k]), (xs[-1], 0.0, z[k]),
+        slabs.append({"storey": k - 1, "pts": [(0.0, 0.0, z[k]), (xs[-1], 0.0, z[k]),
                                           (xs[-1], ys[-1], z[k]), (0.0, ys[-1], z[k])]})
     supports = [(x, y, 0.0) for x in xs for y in ys]
     return columns, beams, slabs, supports, z
@@ -191,16 +192,16 @@ def build(host, p, log):
 
     roots, systems = [], []
     if p["creer_systemes"]:
-        log(T("log_systemes", n=ne + 1))
-        for k in range(ne + 1):
+        log(T("log_systemes", n=ne))
+        for k in range(ne):
             name = f"Étage {k + 1} - R+{k}"
             root = ad_api.create_system(host, name, parent_eid=0)
             roots.append((root, name))
             subs = (["APPUI"] if k == 0 else []) + SUB_SYSTEMS
             systems.append({s: [ad_api.create_system(host, s, parent_eid=root)] for s in subs})
 
-    def sys_ids(level, sub):
-        return systems[level][sub] if systems else None
+    def sys_ids(storey, sub):
+        return systems[storey][sub] if systems else None
 
     counts = {"poteaux_facade": 0, "poteaux_int": 0, "poutres_rive": 0, "poutres_int": 0, "dalles": 0, "appuis": 0}
 
@@ -208,7 +209,7 @@ def build(host, p, log):
     for c in columns:
         ad_api.create_linear_element(host, c["start"], c["end"], mat_id, sec["Spf" if c["facade"] else "Spi"],
                                      user_name="Poteau façade" if c["facade"] else "Poteau intérieur",
-                                     system_ids=sys_ids(c["level"], "POTEAU"))
+                                     system_ids=sys_ids(c["storey"], "POTEAU"))
         counts["poteaux_facade" if c["facade"] else "poteaux_int"] += 1
 
     log(T("log_appuis_n", n=len(supports)))
@@ -220,19 +221,19 @@ def build(host, p, log):
     for b in beams:
         ad_api.create_linear_element(host, b["start"], b["end"], mat_id, sec["Sbr" if b["rive"] else "Sbi"],
                                      user_name="Poutre de rive" if b["rive"] else "Poutre intérieure",
-                                     system_ids=sys_ids(b["level"], "POUTRE"), excentration=POUTRE_EXCENTRATION)
+                                     system_ids=sys_ids(b["storey"], "POUTRE"), excentration=POUTRE_EXCENTRATION)
         counts["poutres_rive" if b["rive"] else "poutres_int"] += 1
 
     log(T("log_dalles", n=len(slabs)))
     for s in slabs:
         ad_api.create_planar_element(host, s["pts"], mat_id, ep, DALLE_EXCENTREMENT * ep,
-                                     user_name="Dalle", system_ids=sys_ids(s["level"], "DALLE"))
+                                     user_name="Dalle", system_ids=sys_ids(s["storey"], "DALLE"))
         counts["dalles"] += 1
 
     if roots:
         log(T("log_niveaux"))
         for k, (eid, name) in enumerate(roots):
-            ad_api.update_system_level(host, eid, name, k + 1, z[k], z[min(k + 1, ne)])
+            ad_api.update_system_level(host, eid, name, k + 1, z[k], z[k + 1])
 
     def meters(v):
         return T("syn_unite_m", val=v)

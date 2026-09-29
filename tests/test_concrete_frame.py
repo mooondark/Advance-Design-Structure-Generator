@@ -83,29 +83,32 @@ def test_beams_eccentric_columns_not(api):
 
 
 def test_elements_in_right_systems(api):
+    # Un systeme par etage (Ne) : l'etage k contient ses poteaux (Z_(k-1) -> Z_k) et le plancher en tete (Z_k).
     cf.build("http://h", _p(), lambda m: None)
     z = [0.0, 3.0, 6.0]
     for l in api["linear"]:
         if l["a"][2] != l["b"][2]:
-            k = z.index(l["a"][2])
-            assert _place(api, l["sys"]) == (f"Étage {k + 1} - R+{k}", "POTEAU")
+            k = z.index(l["b"][2])
+            assert _place(api, l["sys"]) == (f"Étage {k} - R+{k - 1}", "POTEAU")
         else:
             k = z.index(l["a"][2])
-            assert _place(api, l["sys"]) == (f"Étage {k + 1} - R+{k}", "POUTRE")
+            assert _place(api, l["sys"]) == (f"Étage {k} - R+{k - 1}", "POUTRE")
     for s in api["planar"]:
         k = z.index(s["pts"][0][2])
-        assert _place(api, s["sys"]) == (f"Étage {k + 1} - R+{k}", "DALLE")
+        assert _place(api, s["sys"]) == (f"Étage {k} - R+{k - 1}", "DALLE")
     for s in api["support"]:
         assert s["pt"][2] == 0.0 and _place(api, s["sys"]) == ("Étage 1 - R+0", "APPUI")
+    roots = [name for name, parent in api["systems"].values() if parent == 0]
+    assert roots == ["Étage 1 - R+0", "Étage 2 - R+1"]
     subs = sorted(name for name, parent in api["systems"].values() if parent != 0)
-    assert subs.count("APPUI") == 1 and subs.count("VOILE") == 3
+    assert subs.count("APPUI") == 1 and subs.count("VOILE") == 2
 
 
 def test_levels_after_all_systems(api):
     cf.build("http://h", _p(), lambda m: None)
     assert api["order"].index("level") > max(i for i, o in enumerate(api["order"]) if o == "system")
-    assert [(n, b, t) for _eid, _name, n, b, t in api["levels"]] == [(1, 0.0, 3.0), (2, 3.0, 6.0), (3, 6.0, 6.0)]
-    assert [name for _eid, name, *_ in api["levels"]] == ["Étage 1 - R+0", "Étage 2 - R+1", "Étage 3 - R+2"]
+    assert [(n, b, t) for _eid, _name, n, b, t in api["levels"]] == [(1, 0.0, 3.0), (2, 3.0, 6.0)]
+    assert [name for _eid, name, *_ in api["levels"]] == ["Étage 1 - R+0", "Étage 2 - R+1"]
 
 
 def test_slab_top_face_at_level(api):
