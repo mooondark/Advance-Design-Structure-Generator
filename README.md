@@ -19,7 +19,7 @@ Générateur de structures métalliques paramétriques avec l'API d'Advance Desi
 - Matériaux : aciers S235 à S460, bétons C20/25 à C40/50 ; sections béton saisies par forme puis dimensions
 - Aperçu 3D interactif
 - Démarrage et arrêt du serveur API depuis l'interface
-- Langues incluses : FR/EN/PL
+- Langues incluses : FR/EN/PL/ES/PT
 - Sauvegarde des options
 
 ## Lancement

@@ -16,7 +16,7 @@ from core.layout import choice
 from core.runner import run_generation
 from structures import STRUCTURES
 
-VERSION = "2.2"
+VERSION = "2.3"
 
 # Sentinelle d'environnement pour le worker Streamlit en mode PyInstaller.
 _SG_STREAMLIT_WORKER = "_SG_STREAMLIT_WORKER"

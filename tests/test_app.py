@@ -114,7 +114,9 @@ def test_result_cleared_on_api_stop(generated):
 
 @pytest.mark.parametrize("lang, site", [("fr", "https://graitec.com/fr/"),
                                          ("en", "https://graitec.com/uk/"),
-                                         ("pl", "https://graitec.com/pl/")])
+                                         ("pl", "https://graitec.com/pl/"),
+                                         ("es", "https://graitec.com/es/"),
+                                         ("pt", "https://graitec.com/pt/")])
 def test_footer_links_follow_language(cfg_file, lang, site):
     at = _run()
     at.selectbox(key="settings.lang").set_value(lang).run()

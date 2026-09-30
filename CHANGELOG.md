@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.3 - 2026-09-30
+- Nouvelles langues : espagnol (ES) et portugais europeen (PT), avec les liens du site Graitec correspondants (/es/, /pt/)
+
 ## 2.2 - 2026-09-28
 - Nouvelle structure "Portique beton" : batiment beton arme multi-etages (grille Nx x Ny, Ne etages de hauteurs identiques ou differentes), poteaux de facade / interieurs, poutres de rive / interieures excentrees vers le bas, dalle par niveau, appuis en pied
 - Systemes par etage (APPUI, POTEAU, VOILE, POUTRE, DALLE) avec la fonction Niveau activee

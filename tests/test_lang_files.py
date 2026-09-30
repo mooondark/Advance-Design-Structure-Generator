@@ -67,7 +67,8 @@ def test_used_keys_translated_in_scope(code):
                 f"{code}: [{scope}] {key} absente"
 
 
-@pytest.mark.parametrize("code, word", [("fr", "béton"), ("en", "oncrete"), ("pl", "beton")])
+@pytest.mark.parametrize("code, word", [("fr", "béton"), ("en", "oncrete"), ("pl", "beton"),
+                                        ("es", "hormigón"), ("pt", "betão")])
 def test_concrete_material_label(code, word):
     # [common] ui_materiau parle d'acier : le Portique beton le redefinit dans sa section.
     assert word in _read(code).get("concrete_frame", "ui_materiau", fallback="")

@@ -19,7 +19,7 @@ Parametric steel structure generator using the Advance Design API.
 - Materials: steel S235 to S460, concrete C20/25 to C40/50; concrete sections entered by shape then dimensions
 - Interactive 3D preview
 - Start and stop the API server from the interface
-- Included languages: FR/EN/PL
+- Included languages: FR/EN/PL/ES/PT
 - Options saved between sessions
 
 ## Running

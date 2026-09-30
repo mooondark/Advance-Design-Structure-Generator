@@ -5,8 +5,8 @@ import threading
 from core.config import get_app_dir
 
 DEFAULT_LANG = "fr"
-LANG_FILES = {"fr": "fr.ini", "en": "en.ini", "pl": "pl.ini"}
-LANG_LABELS = {"fr": "Français", "en": "English", "pl": "Polski"}
+LANG_FILES = {"fr": "fr.ini", "en": "en.ini", "pl": "pl.ini", "es": "es.ini", "pt": "pt.ini"}
+LANG_LABELS = {"fr": "Français", "en": "English", "pl": "Polski", "es": "Español", "pt": "Português"}
 
 # Etat par thread : Streamlit execute chaque session dans son propre thread.
 _state = threading.local()
