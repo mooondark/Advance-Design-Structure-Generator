@@ -71,3 +71,41 @@ def test_save_config_keeps_view_keys(tmp_path, monkeypatch):
     text = path.read_text(encoding="utf-8")
     assert "View_Antenna = False" in text and "language = en" in text
     assert config.visible_structures(KEYS) == ["steel_frame", "concrete_frame"]
+
+
+DEFAULT_HIDDEN = {"convoyeur": False}
+ALL = KEYS + ["convoyeur"]
+
+
+def test_default_false_creates_hidden_key(tmp_path, monkeypatch):
+    path = _cfg(tmp_path, monkeypatch)
+    assert config.visible_structures(ALL, DEFAULT_HIDDEN) == KEYS
+    text = path.read_text(encoding="utf-8")
+    assert "View_Convoyeur = False" in text and "View_SteelFrame = True" in text
+
+
+def test_default_false_can_be_enabled(tmp_path, monkeypatch):
+    _cfg(tmp_path, monkeypatch, "[General]\nView_Convoyeur = True\n")
+    assert config.visible_structures(ALL, DEFAULT_HIDDEN) == ALL
+
+
+def test_invalid_value_uses_structure_default(tmp_path, monkeypatch):
+    _cfg(tmp_path, monkeypatch, "[General]\nView_Convoyeur = peut-etre\nView_Antenna = peut-etre\n")
+    assert config.visible_structures(ALL, DEFAULT_HIDDEN) == ["steel_frame", "antenna", "concrete_frame"]
+
+
+def test_only_missing_key_added_to_existing_config(tmp_path, monkeypatch):
+    path = _cfg(tmp_path, monkeypatch,
+                "[General]\nlanguage = pl\nstructure = antenna\nView_SteelFrame = 0\nView_Antenna = 1\n"
+                "View_ConcreteFrame = True\n")
+    assert config.visible_structures(ALL, DEFAULT_HIDDEN) == ["antenna", "concrete_frame"]
+    text = path.read_text(encoding="utf-8")
+    assert "language = pl" in text and "View_SteelFrame = 0" in text and "View_Antenna = 1" in text
+    assert "View_Convoyeur = False" in text
+
+
+def test_save_config_keeps_hidden_default_key(tmp_path, monkeypatch):
+    path = _cfg(tmp_path, monkeypatch)
+    config.visible_structures(ALL, DEFAULT_HIDDEN)
+    config.save_config(language="es")
+    assert "View_Convoyeur = False" in path.read_text(encoding="utf-8")

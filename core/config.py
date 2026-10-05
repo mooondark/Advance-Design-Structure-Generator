@@ -73,19 +73,23 @@ def view_key(structure_key):
     return "View_" + "".join(w.capitalize() for w in structure_key.split("_"))
 
 
-def visible_structures(structure_keys):
+def visible_structures(structure_keys, defaults=None):
     """Structures a afficher d'apres les cles View_<Nom> de config.ini (true/false, 1/0...).
-    Les cles absentes sont creees a True ; valeur illisible = visible ; tout masque = tout affiche."""
+    defaults : {cle: bool} valeur par defaut par structure (True si absente).
+    Cle absente : creee avec le defaut de la structure ; valeur illisible : defaut de la structure ;
+    tout masque : tout est affiche."""
+    defaults = defaults or {}
     raw = _read_raw()
     created = False
     visible = []
     for key in structure_keys:
+        default = defaults.get(key, True)
         name = view_key(key)
         value = _get(raw, name)
         if value is None:
-            raw[name] = value = "True"
+            raw[name] = value = str(default)
             created = True
-        if configparser.RawConfigParser.BOOLEAN_STATES.get(value.strip().lower(), True):
+        if configparser.RawConfigParser.BOOLEAN_STATES.get(value.strip().lower(), default):
             visible.append(key)
     if created:
         _write_raw(raw)

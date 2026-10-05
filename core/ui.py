@@ -91,7 +91,8 @@ def init_session():
     if "structure" in ss:
         return
     cfg = load_config()
-    visible = visible_structures(list(STRUCTURES))
+    view_defaults = {k: getattr(s, "VISIBLE_BY_DEFAULT", True) for k, s in STRUCTURES.items()}
+    visible = visible_structures(list(STRUCTURES), view_defaults)
     defaults = {
         "visible_structures": visible,
         "structure": cfg["structure"] if cfg["structure"] in visible else visible[0],
