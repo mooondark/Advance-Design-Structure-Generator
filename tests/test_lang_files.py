@@ -14,7 +14,7 @@ SOURCES = {"common": ["app.py", "core/ui.py", "core/runner.py"],
            **{key: [f"structures/{key}.py"] for key in STRUCTURES}}
 # Cles construites dynamiquement (format_func) : non detectees par la recherche de T("...").
 DYNAMIC = {
-    "common": {"shape_C", "shape_R", "shape_D", "dim_C", "dim_D"},
+    "common": {"shape_C", "shape_R", "shape_D", "dim_C", "dim_D", "dim_ph", "dim_ptw", "dim_pb", "dim_ptf"},
     "steel_frame": {"appui_hinged", "appui_fixed"},
     "antenna": {"base_triangle", "base_square"},
     "concrete_frame": {"appui_hinged", "appui_fixed"},

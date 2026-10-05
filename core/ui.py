@@ -4,6 +4,7 @@ import subprocess
 
 import streamlit as st
 
+from core import param_sections
 from core.concrete import SHAPES, parse_section, section_name
 from core.config import load_config, save_config, visible_structures
 from core.i18n import LANG_LABELS, T, load_language
@@ -117,7 +118,15 @@ def init_session():
                 defaults[f"{skey}.{name}.d1"] = dims[0]
                 defaults[f"{skey}.{name}.d2"] = dims[-1]
             else:
-                defaults[f"{skey}.{name}.fam"] = next(f for f in families if profile in PROFILES[f])
+                parsed = param_sections.parse(profile)
+                if any(f in param_sections.FAMILIES for f in families):
+                    dims = parsed[1] if parsed else param_sections.DEFAULT_DIMS
+                    for i, d in enumerate(dims):
+                        defaults[f"{skey}.{name}.d{i}"] = d
+                if parsed and parsed[0] in families:
+                    defaults[f"{skey}.{name}.fam"] = parsed[0]
+                else:
+                    defaults[f"{skey}.{name}.fam"] = next(f for f in families if profile in PROFILES.get(f, ()))
         defaults[f"{skey}.M"] = s.DEFAULT_MATERIAL
     for k, v in defaults.items():
         ss[k] = v
@@ -255,6 +264,13 @@ def sections_panel(key, structure):
                 ss[f"{key}.{name}"] = section_name(shape, dims)
                 continue
             fam = c_fam.selectbox(T(label_key), families, key=f"{key}.{name}.fam")
+            if fam in param_sections.FAMILIES:
+                cols4 = c_prof.columns(4)
+                for i, lab in enumerate(("dim_ph", "dim_ptw", "dim_pb", "dim_ptf")):
+                    cols4[i].number_input(T(lab), min_value=0.1, max_value=500.0, step=0.1, format="%.2f",
+                                          key=f"{key}.{name}.d{i}")
+                ss[f"{key}.{name}"] = param_sections.name(fam, [ss[f"{key}.{name}.d{i}"] for i in range(4)])
+                continue
             names = PROFILES[fam]
             if ss[f"{key}.{name}"] not in names:
                 ss[f"{key}.{name}"] = names[0]

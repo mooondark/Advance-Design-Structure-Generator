@@ -208,3 +208,64 @@ def test_saved_structure_hidden_falls_back_to_first_visible(cfg_file):
     cfg_file.write_text("[General]\nstructure = antenna\nView_Antenna = 0\n", encoding="utf-8")
     at = _run()
     assert at.selectbox(key="structure@fr").value == "steel_frame"
+
+
+def _convoyeur(cfg_file):
+    cfg_file.write_text("[General]\nView_Convoyeur = True\n", encoding="utf-8")
+    at = _run()
+    at.selectbox(key="structure@fr").set_value("convoyeur").run()
+    assert not at.exception, at.exception
+    return at
+
+
+def test_convoyeur_hidden_by_default_and_key_created(cfg_file):
+    at = _run()
+    assert "Convoyeur" not in " ".join(at.selectbox(key="structure@fr").options)
+    assert "View_Convoyeur = False" in cfg_file.read_text(encoding="utf-8")
+
+
+def test_convoyeur_renders_when_enabled(cfg_file):
+    at = _convoyeur(cfg_file)
+    assert at.selectbox(key="structure@fr").value == "convoyeur"
+    assert at.number_input(key="convoyeur.pente").value == 27.5
+
+
+def test_saved_convoyeur_hidden_falls_back_to_first_visible(cfg_file):
+    cfg_file.write_text("[General]\nstructure = convoyeur\n", encoding="utf-8")
+    at = _run()
+    assert at.selectbox(key="structure@fr").value == "steel_frame"
+
+
+def test_convoyeur_family_change_resets_profile(cfg_file):
+    at = _convoyeur(cfg_file)
+    at.selectbox(key="convoyeur.Sc.fam").set_value("CHSH").run()
+    assert not at.exception, at.exception
+    assert at.selectbox(key="convoyeur.Sc").value == PROFILES["CHSH"][0]
+
+
+def test_convoyeur_cs2_fields_apply_section_twice(cfg_file):
+    at = _convoyeur(cfg_file)
+    assert at.session_state["convoyeur.S31"] == "CS2 I17.5*0.8+9*0.5 I17.5*0.8+9*0.5"
+    at.number_input(key="convoyeur.S31.d1").set_value(1.1).run()
+    at.number_input(key="convoyeur.S31.d2").set_value(17.5).run()
+    at.number_input(key="convoyeur.S31.d3").set_value(0.75).run()
+    assert not at.exception, at.exception
+    assert at.session_state["convoyeur.S31"] == "CS2 I17.5*1.1+17.5*0.75 I17.5*1.1+17.5*0.75"
+
+
+def test_convoyeur_parametric_dimensions_survive_family_round_trip(cfg_file):
+    at = _convoyeur(cfg_file)
+    at.number_input(key="convoyeur.S1.d0").set_value(20.0).run()
+    at.selectbox(key="convoyeur.S1.fam").set_value("HEA").run()
+    assert not at.exception, at.exception
+    at.selectbox(key="convoyeur.S1.fam").set_value("I*").run()
+    assert not at.exception, at.exception
+    assert at.session_state["convoyeur.S1"] == "I20*1.1+17.5*0.75"
+
+
+def test_convoyeur_language_round_trip(cfg_file):
+    at = _convoyeur(cfg_file)
+    _switch_language(at, "fr", "pl")
+    _switch_language(at, "pl", "fr")
+    assert at.session_state["structure"] == "convoyeur"
+    assert at.selectbox(key="structure@fr").value == "convoyeur"
