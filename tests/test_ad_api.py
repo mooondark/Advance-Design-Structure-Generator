@@ -70,3 +70,9 @@ def test_update_system_level(monkeypatch):
     body = calls[0]["json"]
     assert body["$type"] == "StructuralSystem" and body["isLevel"] is True
     assert (body["levelNumber"], body["levelBottom"], body["levelTop"]) == (1, 0.0, 3.0)
+
+
+def test_create_material_rigid(monkeypatch):
+    calls = _capture(monkeypatch)
+    assert ad_api.create_material("http://h", "Rigid") == 7
+    assert calls[0]["json"] == {"$type": "MaterialRigid", "name": "Rigid"}

@@ -95,7 +95,9 @@ def close_project(host):
 
 
 def create_material(host, name):
-    if name in CONCRETE_PROPS:
+    if name == "Rigid":
+        body = {"$type": "MaterialRigid", "name": name}
+    elif name in CONCRETE_PROPS:
         body = {"$type": "MaterialReinforcedConcrete", "name": name, **_CONCRETE_COMMON, **CONCRETE_PROPS[name]}
     else:
         body = {"$type": "MaterialSteel", "name": name, **STEEL_PROPS[name]}

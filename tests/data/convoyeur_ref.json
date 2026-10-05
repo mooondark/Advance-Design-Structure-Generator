@@ -1,0 +1,1862 @@
+{
+"bars": [
+{
+"system": "Portique 2",
+"name": "Poteau 2",
+"section": "I17.5*0.8+9*0.5",
+"type": "sbeam",
+"a": [
+5.7752,
+-0.17,
+0.0
+],
+"b": [
+5.7752,
+0.0,
+1.9836
+]
+},
+{
+"system": "Portique 2",
+"name": "Poteau 2",
+"section": "I17.5*0.8+9*0.5",
+"type": "sbeam",
+"a": [
+5.7752,
+1.33,
+0.0
+],
+"b": [
+5.7752,
+1.16,
+1.9836
+]
+},
+{
+"system": "Portique 3",
+"name": "Poteau 3.1",
+"section": "CS2 I17.5*0.8+9*0.5 I17.5*0.8+9*0.5",
+"type": "sbeam",
+"a": [
+14.3074,
+-0.3431,
+-0.0274
+],
+"b": [
+14.3074,
+-0.241,
+1.2897
+]
+},
+{
+"system": "Portique 3",
+"name": "Poteau 3.2",
+"section": "I17.5*0.8+9*0.5",
+"type": "sbeam",
+"a": [
+14.3074,
+-0.2358,
+1.2931
+],
+"b": [
+14.3074,
+0.0,
+4.3337
+]
+},
+{
+"system": "Portique 3",
+"name": "Filaire",
+"section": "I17.5*0.8+9*0.5",
+"type": "sbeam",
+"a": [
+14.3074,
+-0.2358,
+1.2931
+],
+"b": [
+14.3074,
+1.5108,
+1.2884
+]
+},
+{
+"system": "Portique 3",
+"name": "Poteau 3.2",
+"section": "I17.5*0.8+9*0.5",
+"type": "sbeam",
+"a": [
+14.3074,
+1.5108,
+1.2884
+],
+"b": [
+14.3074,
+1.16,
+4.3337
+]
+},
+{
+"system": "Portique 3",
+"name": "Poteau 3.1",
+"section": "CS2 I17.5*0.8+9*0.5 I17.5*0.8+9*0.5",
+"type": "sbeam",
+"a": [
+14.3074,
+1.662,
+-0.024
+],
+"b": [
+14.3074,
+1.5108,
+1.2884
+]
+},
+{
+"system": "Portique 1",
+"name": "Poteau 1",
+"section": "I17.5*1.1+17.5*0.75",
+"type": "sbeam",
+"a": [
+0.087,
+0.0,
+0.0239
+],
+"b": [
+0.087,
+0.0,
+0.4168
+]
+},
+{
+"system": "Portique 1",
+"name": "Filaire",
+"section": "I17.5*1.1+17.5*0.75",
+"type": "sbeam",
+"a": [
+0.087,
+0.0,
+0.4168
+],
+"b": [
+0.087,
+1.16,
+0.4168
+]
+},
+{
+"system": "Portique 1",
+"name": "Poteau 1",
+"section": "I17.5*1.1+17.5*0.75",
+"type": "sbeam",
+"a": [
+0.087,
+1.16,
+0.0239
+],
+"b": [
+0.087,
+1.16,
+0.4168
+]
+},
+{
+"system": "Portique 2",
+"name": "Filaire",
+"section": "I17.5*1.1+17.5*0.75",
+"type": "sbeam",
+"a": [
+5.7752,
+0.0,
+1.9836
+],
+"b": [
+5.7752,
+1.16,
+1.9836
+]
+},
+{
+"system": "Portique 3",
+"name": "Filaire",
+"section": "I17.5*1.1+17.5*0.75",
+"type": "sbeam",
+"a": [
+14.3074,
+0.0,
+4.3337
+],
+"b": [
+14.3074,
+1.16,
+4.3337
+]
+},
+{
+"system": "Travée 1",
+"name": "Poutre principale",
+"section": "I68*1+18*0.5",
+"type": "sbeam",
+"a": [
+-0.0245,
+1.16,
+0.8217
+],
+"b": [
+5.6637,
+1.16,
+2.3885
+]
+},
+{
+"system": "Travée 1",
+"name": "Poutre principale",
+"section": "I68*1+18*0.5",
+"type": "sbeam",
+"a": [
+-0.0245,
+0.0,
+0.8217
+],
+"b": [
+5.6637,
+0.0,
+2.3885
+]
+},
+{
+"system": "Extrémité début",
+"name": "Poutre P Début",
+"section": "I68*1+18*0.5",
+"type": "sbeam",
+"a": [
+-1.5944,
+0.0,
+0.6278
+],
+"b": [
+-0.0245,
+0.0,
+0.8217
+]
+},
+{
+"system": "Extrémité début",
+"name": "Poutre P Début",
+"section": "I68*1+18*0.5",
+"type": "sbeam",
+"a": [
+-1.5944,
+1.16,
+0.6278
+],
+"b": [
+-0.0245,
+1.16,
+0.8217
+]
+},
+{
+"system": "Travée 1",
+"name": "Poutre transversale",
+"section": "U12*0.55+5.3*0.8",
+"type": "sbeam",
+"a": [
+1.5013,
+-0.81,
+0.8375
+],
+"b": [
+1.5013,
+1.16,
+0.8375
+]
+},
+{
+"system": "Travée 1",
+"name": "Poutre transversale",
+"section": "U12*0.55+5.3*0.8",
+"type": "sbeam",
+"a": [
+4.3454,
+-0.81,
+1.6209
+],
+"b": [
+4.3454,
+1.16,
+1.6209
+]
+},
+{
+"system": "Travée 2",
+"name": "Poutre transversale",
+"section": "U12*0.55+5.3*0.8",
+"type": "sbeam",
+"a": [
+7.1894,
+-0.81,
+2.4042
+],
+"b": [
+7.1894,
+1.16,
+2.4042
+]
+},
+{
+"system": "Travée 2",
+"name": "Poutre transversale",
+"section": "U12*0.55+5.3*0.8",
+"type": "sbeam",
+"a": [
+10.0335,
+-0.81,
+3.1876
+],
+"b": [
+10.0335,
+1.16,
+3.1876
+]
+},
+{
+"system": "Travée 2",
+"name": "Poutre transversale",
+"section": "U12*0.55+5.3*0.8",
+"type": "sbeam",
+"a": [
+12.8776,
+-0.81,
+3.971
+],
+"b": [
+12.8776,
+1.16,
+3.971
+]
+},
+{
+"system": "Travée 1",
+"name": "Poutre transversale",
+"section": "U12*0.55+5.3*0.8",
+"type": "sbeam",
+"a": [
+14.4418,
+-0.81,
+4.4128
+],
+"b": [
+14.4418,
+1.16,
+4.4128
+]
+},
+{
+"system": "Rigides",
+"name": "Rigide",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+0.087,
+0.0,
+0.4168
+],
+"b": [
+-0.1148,
+0.0,
+1.1495
+]
+},
+{
+"system": "Rigides",
+"name": "Rigide",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+0.087,
+1.16,
+0.4168
+],
+"b": [
+-0.1148,
+1.16,
+1.1495
+]
+},
+{
+"system": "Rigides",
+"name": "Rigide",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+1.5011,
+0.0,
+0.8374
+],
+"b": [
+1.3072,
+0.0,
+1.5412
+]
+},
+{
+"system": "Rigides",
+"name": "Rigide",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+1.5011,
+1.16,
+0.8374
+],
+"b": [
+1.3072,
+1.16,
+1.5412
+]
+},
+{
+"system": "Rigides",
+"name": "Rigide",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+2.8196,
+0.0,
+1.6051
+],
+"b": [
+2.7293,
+0.0,
+1.9329
+]
+},
+{
+"system": "Rigides",
+"name": "Rigide",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+2.8196,
+1.16,
+1.6051
+],
+"b": [
+2.7293,
+1.16,
+1.9329
+]
+},
+{
+"system": "Rigides",
+"name": "Rigide",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+4.3451,
+0.0,
+1.6208
+],
+"b": [
+4.1514,
+0.0,
+2.3246
+]
+},
+{
+"system": "Rigides",
+"name": "Rigide",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+4.3452,
+1.16,
+1.6208
+],
+"b": [
+4.1513,
+1.16,
+2.3246
+]
+},
+{
+"system": "Rigides",
+"name": "Rigide",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+5.7752,
+0.0,
+1.9836
+],
+"b": [
+5.5734,
+0.0,
+2.7163
+]
+},
+{
+"system": "Rigides",
+"name": "Rigide",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+5.7752,
+1.16,
+1.9836
+],
+"b": [
+5.5734,
+1.16,
+2.7163
+]
+},
+{
+"system": "Travée 2",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+7.1892,
+0.0,
+2.4042
+],
+"b": [
+6.9955,
+0.0,
+3.108
+]
+},
+{
+"system": "Travée 2",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+7.1892,
+1.16,
+2.4042
+],
+"b": [
+6.9954,
+1.16,
+3.108
+]
+},
+{
+"system": "Travée 2",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+8.5077,
+0.0,
+3.1719
+],
+"b": [
+8.4174,
+0.0,
+3.4997
+]
+},
+{
+"system": "Travée 2",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+8.5077,
+1.16,
+3.1719
+],
+"b": [
+8.4174,
+1.16,
+3.4997
+]
+},
+{
+"system": "Travée 2",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+10.0334,
+0.0,
+3.1876
+],
+"b": [
+9.8395,
+0.0,
+3.8914
+]
+},
+{
+"system": "Travée 2",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+10.0333,
+1.16,
+3.1876
+],
+"b": [
+9.8395,
+1.16,
+3.8914
+]
+},
+{
+"system": "Travée 2",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+11.3518,
+0.0,
+3.9553
+],
+"b": [
+11.2615,
+0.0,
+4.2831
+]
+},
+{
+"system": "Travée 2",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+11.3518,
+1.16,
+3.9553
+],
+"b": [
+11.2615,
+1.16,
+4.2831
+]
+},
+{
+"system": "Travée 2",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+12.8774,
+0.0,
+3.971
+],
+"b": [
+12.6836,
+0.0,
+4.6747
+]
+},
+{
+"system": "Travée 2",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+12.8774,
+1.16,
+3.971
+],
+"b": [
+12.6836,
+1.16,
+4.6747
+]
+},
+{
+"system": "Rigides",
+"name": "Rigide",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+14.3074,
+1.1599,
+4.3337
+],
+"b": [
+14.1056,
+1.1601,
+5.0664
+]
+},
+{
+"system": "Rigides",
+"name": "Rigide",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+14.3076,
+0.0,
+4.3338
+],
+"b": [
+14.1054,
+0.0,
+5.0664
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+14.4418,
+0.0,
+4.4128
+],
+"b": [
+14.3411,
+0.0,
+4.7786
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+14.4418,
+1.16,
+4.4128
+],
+"b": [
+14.3411,
+1.16,
+4.7786
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+14.4548,
+0.0,
+4.6648
+],
+"b": [
+14.338,
+0.0,
+5.089
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+14.4548,
+1.16,
+4.6648
+],
+"b": [
+14.338,
+1.16,
+5.089
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+14.7055,
+0.0,
+4.7338
+],
+"b": [
+14.5886,
+0.0,
+5.158
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+14.7055,
+1.16,
+4.7338
+],
+"b": [
+14.5886,
+1.16,
+5.158
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+15.1213,
+0.0,
+4.6928
+],
+"b": [
+14.9965,
+0.0,
+5.1459
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+15.1213,
+1.16,
+4.6928
+],
+"b": [
+14.9965,
+1.16,
+5.1459
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+15.7673,
+0.0,
+4.8707
+],
+"b": [
+15.6424,
+0.0,
+5.3238
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "RIGIDE",
+"type": "rigid",
+"a": [
+15.7673,
+1.16,
+4.8707
+],
+"b": [
+15.6424,
+1.16,
+5.3238
+]
+},
+{
+"system": "Convoyeur",
+"name": "Poutre extérieure",
+"section": "L18.5*5*0.5",
+"type": "sbeam",
+"a": [
+1.5011,
+-0.81,
+0.8374
+],
+"b": [
+12.8774,
+-0.81,
+3.971
+]
+},
+{
+"system": "Travée 2",
+"name": "Filaire",
+"section": "L18*5*0.5",
+"type": "sbeam",
+"a": [
+12.8774,
+-0.81,
+3.971
+],
+"b": [
+14.4418,
+-0.81,
+4.4128
+]
+},
+{
+"system": "Extrémité début",
+"name": "Filaire",
+"section": "UPN220",
+"type": "sbeam",
+"a": [
+-1.5944,
+0.0,
+0.6278
+],
+"b": [
+-1.5944,
+1.16,
+0.6278
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "U53*0.8+16*0.8",
+"type": "sbeam",
+"a": [
+15.7088,
+0.0,
+5.0828
+],
+"b": [
+16.2348,
+0.0,
+5.2277
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "U53*0.8+16*0.8",
+"type": "sbeam",
+"a": [
+15.7088,
+1.16,
+5.0828
+],
+"b": [
+16.2348,
+1.16,
+5.2277
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "U53*0.8+16*0.8",
+"type": "sbeam",
+"a": [
+16.2348,
+0.0,
+5.2277
+],
+"b": [
+16.2348,
+1.16,
+5.2277
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "U9.3*0.8+16*0.8",
+"type": "sbeam",
+"a": [
+14.338,
+0.0,
+5.089
+],
+"b": [
+14.5886,
+0.0,
+5.158
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "U9.3*0.8+16*0.8",
+"type": "sbeam",
+"a": [
+14.338,
+1.16,
+5.089
+],
+"b": [
+14.5886,
+1.16,
+5.158
+]
+},
+{
+"system": "Travée 1",
+"name": "Filaire",
+"section": "SHS100x4C",
+"type": "sbeam",
+"a": [
+-0.0245,
+0.0,
+0.8217
+],
+"b": [
+-0.0245,
+1.16,
+0.8217
+]
+},
+{
+"system": "Travée 1",
+"name": "Filaire",
+"section": "SHS100x4C",
+"type": "sbeam",
+"a": [
+5.6637,
+0.0,
+2.3885
+],
+"b": [
+5.6637,
+1.16,
+2.3885
+]
+},
+{
+"system": "Travée 1",
+"name": "Filaire",
+"section": "SHS100x4C",
+"type": "sbeam",
+"a": [
+14.1959,
+0.0,
+4.7386
+],
+"b": [
+14.1959,
+1.16,
+4.7386
+]
+},
+{
+"system": "Portique 2",
+"name": "Filaire",
+"section": "SHS60x4C",
+"type": "sbeam",
+"a": [
+5.7752,
+-0.085,
+0.9918
+],
+"b": [
+5.7752,
+1.245,
+0.9918
+]
+},
+{
+"system": "Portique 3",
+"name": "Filaire",
+"section": "SHS60x4C",
+"type": "sbeam",
+"a": [
+14.3074,
+-0.1572,
+2.3067
+],
+"b": [
+14.3074,
+1.3939,
+2.3035
+]
+},
+{
+"system": "Portique 3",
+"name": "Filaire",
+"section": "SHS60x4C",
+"type": "sbeam",
+"a": [
+14.3074,
+-0.0786,
+3.3202
+],
+"b": [
+14.3074,
+1.2769,
+3.3186
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+-0.1148,
+0.0,
+1.1495
+],
+"b": [
+-0.1148,
+1.16,
+1.1495
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+-0.1148,
+1.16,
+1.1495
+],
+"b": [
+1.3072,
+0.0,
+1.5412
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+1.3072,
+0.0,
+1.5412
+],
+"b": [
+1.3072,
+1.16,
+1.5412
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+1.3072,
+0.0,
+1.5412
+],
+"b": [
+2.7293,
+1.16,
+1.9329
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+2.7293,
+0.0,
+1.9329
+],
+"b": [
+2.7293,
+1.16,
+1.9329
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+2.7293,
+1.16,
+1.9329
+],
+"b": [
+4.1513,
+0.0,
+2.3246
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+4.1513,
+0.0,
+2.3246
+],
+"b": [
+4.1513,
+1.16,
+2.3246
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+4.1513,
+0.0,
+2.3246
+],
+"b": [
+5.5734,
+1.16,
+2.7163
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+5.5734,
+0.0,
+2.7163
+],
+"b": [
+5.5734,
+1.16,
+2.7163
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+5.5734,
+1.16,
+2.7163
+],
+"b": [
+6.9954,
+0.0,
+3.108
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+6.9954,
+0.0,
+3.108
+],
+"b": [
+6.9954,
+1.16,
+3.108
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+6.9954,
+0.0,
+3.108
+],
+"b": [
+8.4174,
+1.16,
+3.4997
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+8.4174,
+0.0,
+3.4997
+],
+"b": [
+8.4174,
+1.16,
+3.4997
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+8.4174,
+1.16,
+3.4997
+],
+"b": [
+9.8395,
+0.0,
+3.8914
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+9.8395,
+0.0,
+3.8914
+],
+"b": [
+9.8395,
+1.16,
+3.8914
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+9.8395,
+0.0,
+3.8914
+],
+"b": [
+11.2615,
+1.16,
+4.2831
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+11.2615,
+0.0,
+4.2831
+],
+"b": [
+11.2615,
+1.16,
+4.2831
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+11.2615,
+1.16,
+4.2831
+],
+"b": [
+12.6836,
+0.0,
+4.6747
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+12.6836,
+0.0,
+4.6747
+],
+"b": [
+12.6836,
+1.16,
+4.6747
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+12.6836,
+0.0,
+4.6747
+],
+"b": [
+14.1056,
+1.16,
+5.0664
+]
+},
+{
+"system": "Contreventement",
+"name": "Contreventement",
+"section": "CHS42.4x4C",
+"type": "sbeam",
+"a": [
+14.1056,
+0.0,
+5.0664
+],
+"b": [
+14.1056,
+1.16,
+5.0664
+]
+},
+{
+"system": "Travée 1",
+"name": "Filaire",
+"section": "CHS60.3x4C",
+"type": "sbeam",
+"a": [
+0.087,
+0.0,
+0.0239
+],
+"b": [
+1.5011,
+0.0,
+0.8374
+]
+},
+{
+"system": "Travée 1",
+"name": "Filaire",
+"section": "CHS60.3x4C",
+"type": "sbeam",
+"a": [
+0.087,
+1.16,
+0.0239
+],
+"b": [
+1.5011,
+1.16,
+0.8374
+]
+},
+{
+"system": "Portique 2",
+"name": "Diagonale portique",
+"section": "CHS60.3x4C",
+"type": "sbeam",
+"a": [
+5.7752,
+-0.17,
+0.0
+],
+"b": [
+5.7752,
+0.58,
+0.9918
+]
+},
+{
+"system": "Portique 2",
+"name": "Diagonale portique",
+"section": "CHS60.3x4C",
+"type": "sbeam",
+"a": [
+5.7752,
+-0.085,
+0.9918
+],
+"b": [
+5.7752,
+0.58,
+1.9836
+]
+},
+{
+"system": "Portique 2",
+"name": "Diagonale portique",
+"section": "CHS60.3x4C",
+"type": "sbeam",
+"a": [
+5.7752,
+1.245,
+0.9918
+],
+"b": [
+5.7752,
+0.58,
+1.9836
+]
+},
+{
+"system": "Portique 2",
+"name": "Diagonale portique",
+"section": "CHS60.3x4C",
+"type": "sbeam",
+"a": [
+5.7752,
+1.33,
+0.0
+],
+"b": [
+5.7752,
+0.58,
+0.9918
+]
+},
+{
+"system": "Portique 3",
+"name": "Diagonale portique",
+"section": "CHS60.3x4C",
+"type": "sbeam",
+"a": [
+14.3074,
+-0.1858,
+1.2931
+],
+"b": [
+14.3074,
+0.6183,
+2.3051
+]
+},
+{
+"system": "Portique 3",
+"name": "Diagonale portique",
+"section": "CHS60.3x4C",
+"type": "sbeam",
+"a": [
+14.3074,
+-0.1572,
+2.3067
+],
+"b": [
+14.3074,
+0.5976,
+3.3194
+]
+},
+{
+"system": "Portique 3",
+"name": "Diagonale portique",
+"section": "CHS60.3x4C",
+"type": "sbeam",
+"a": [
+14.3074,
+-0.0786,
+3.3202
+],
+"b": [
+14.3074,
+0.5984,
+4.3337
+]
+},
+{
+"system": "Portique 3",
+"name": "Diagonale portique",
+"section": "CHS60.3x4C",
+"type": "sbeam",
+"a": [
+14.3074,
+1.2769,
+3.3186
+],
+"b": [
+14.3074,
+0.5984,
+4.3337
+]
+},
+{
+"system": "Portique 3",
+"name": "Diagonale portique",
+"section": "CHS60.3x4C",
+"type": "sbeam",
+"a": [
+14.3074,
+1.3939,
+2.3035
+],
+"b": [
+14.3074,
+0.5976,
+3.3194
+]
+},
+{
+"system": "Portique 3",
+"name": "Diagonale portique",
+"section": "CHS60.3x4C",
+"type": "sbeam",
+"a": [
+14.3074,
+1.4608,
+1.2884
+],
+"b": [
+14.3074,
+0.6183,
+2.3051
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "I68*1+18*0.5",
+"type": "sbeam",
+"a": [
+14.4176,
+0.0,
+4.7997
+],
+"b": [
+14.2827,
+0.0,
+4.7625
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "U39.5*0.8+16*0.8",
+"type": "sbeam",
+"a": [
+14.7055,
+0.0,
+4.7338
+],
+"b": [
+14.4548,
+0.0,
+4.6648
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "U53*0.8+16*0.8",
+"type": "sbeam",
+"a": [
+15.0629,
+0.0,
+4.9049
+],
+"b": [
+14.6869,
+0.0,
+4.8013
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "L80x80x8",
+"type": "sbeam",
+"a": [
+15.7673,
+0.0,
+4.8707
+],
+"b": [
+15.1213,
+0.0,
+4.6928
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "L80x80x8",
+"type": "sbeam",
+"a": [
+14.9965,
+0.0,
+5.1459
+],
+"b": [
+15.6424,
+0.0,
+5.3238
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "U39.5*0.8+16*0.8",
+"type": "sbeam",
+"a": [
+14.7055,
+1.16,
+4.7338
+],
+"b": [
+14.4548,
+1.16,
+4.6648
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "U53*0.8+16*0.8",
+"type": "sbeam",
+"a": [
+15.0629,
+1.16,
+4.9049
+],
+"b": [
+14.6869,
+1.16,
+4.8013
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "L80x80x8",
+"type": "sbeam",
+"a": [
+15.7673,
+1.16,
+4.8707
+],
+"b": [
+15.1213,
+1.16,
+4.6928
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "L80x80x8",
+"type": "sbeam",
+"a": [
+14.9965,
+1.16,
+5.1459
+],
+"b": [
+15.6424,
+1.16,
+5.3238
+]
+},
+{
+"system": "Extrémité fin",
+"name": "Filaire",
+"section": "I68*1+18*0.5",
+"type": "sbeam",
+"a": [
+14.4177,
+1.16,
+4.7997
+],
+"b": [
+14.2827,
+1.16,
+4.7625
+]
+},
+{
+"system": "Travée 2",
+"name": "Poutre principale",
+"section": "I68*1+18*0.5",
+"type": "sbeam",
+"a": [
+5.6637,
+0.0,
+2.3885
+],
+"b": [
+14.2827,
+0.0,
+4.7625
+]
+},
+{
+"system": "Travée 2",
+"name": "Poutre principale",
+"section": "I68*1+18*0.5",
+"type": "sbeam",
+"a": [
+5.6637,
+1.16,
+2.3885
+],
+"b": [
+14.2827,
+1.16,
+4.7625
+]
+}
+],
+"supports": [
+{
+"system": "Portique 1",
+"pt": [
+0.087,
+1.16,
+0.0239
+]
+},
+{
+"system": "Portique 1",
+"pt": [
+0.087,
+0.0,
+0.0239
+]
+},
+{
+"system": "Portique 2",
+"pt": [
+5.7752,
+1.33,
+0.0
+]
+},
+{
+"system": "Portique 2",
+"pt": [
+5.7752,
+-0.17,
+0.0
+]
+},
+{
+"system": "Portique 3",
+"pt": [
+14.3074,
+1.662,
+-0.024
+]
+},
+{
+"system": "Portique 3",
+"pt": [
+14.3074,
+-0.3431,
+-0.0274
+]
+}
+]
+}
