@@ -56,7 +56,7 @@ def main():
 
     h1, h2 = st.columns([3, 1], vertical_alignment="center")
     h1.subheader(f"{structure.ICON} Structure Generator  v{VERSION}")
-    choice(h2, "select", T("ui_structure"), list(STRUCTURES), "structure", lambda k: T(STRUCTURES[k].TITLE_KEY),
+    choice(h2, "select", T("ui_structure"), st.session_state.visible_structures, "structure", lambda k: T(STRUCTURES[k].TITLE_KEY),
            on_change=lambda: save_config(structure=st.session_state.structure), label_visibility="collapsed")
 
     col_form, col_preview = st.columns([2, 1], gap="medium")

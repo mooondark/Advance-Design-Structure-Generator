@@ -195,3 +195,16 @@ def test_language_round_trip_keeps_translated_choices(cfg_file):
     assert at.session_state["concrete_frame.Sbr.shape"] == "C"
     assert at.session_state["concrete_frame.TypeAppui"] == "FIXED"
     assert at.selectbox(key="structure@fr").value == "concrete_frame"
+
+
+def test_hidden_structure_not_offered(cfg_file):
+    cfg_file.write_text("[General]\nView_Antenna = false\n", encoding="utf-8")
+    at = _run()
+    options = at.selectbox(key="structure@fr").options
+    assert "Pylône antenne" not in options and len(options) == 2
+
+
+def test_saved_structure_hidden_falls_back_to_first_visible(cfg_file):
+    cfg_file.write_text("[General]\nstructure = antenna\nView_Antenna = 0\n", encoding="utf-8")
+    at = _run()
+    assert at.selectbox(key="structure@fr").value == "steel_frame"

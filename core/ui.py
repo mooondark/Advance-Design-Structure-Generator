@@ -5,7 +5,7 @@ import subprocess
 import streamlit as st
 
 from core.concrete import SHAPES, parse_section, section_name
-from core.config import load_config, save_config
+from core.config import load_config, save_config, visible_structures
 from core.i18n import LANG_LABELS, T, load_language
 from core.layout import choice, section
 from core.profiles import PROFILES
@@ -91,8 +91,10 @@ def init_session():
     if "structure" in ss:
         return
     cfg = load_config()
+    visible = visible_structures(list(STRUCTURES))
     defaults = {
-        "structure": cfg["structure"] if cfg["structure"] in STRUCTURES else next(iter(STRUCTURES)),
+        "visible_structures": visible,
+        "structure": cfg["structure"] if cfg["structure"] in visible else visible[0],
         "settings.lang": cfg["language"] if cfg["language"] in LANG_LABELS else "fr",
         "settings.exe": cfg["api_server_exe"],
         "settings.host": DEFAULT_HOST,
