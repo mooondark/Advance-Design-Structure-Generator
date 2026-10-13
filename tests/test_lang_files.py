@@ -10,7 +10,7 @@ from structures import STRUCTURES
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Le code commun (app.py, core/) doit trouver ses cles dans [common] quelle que soit la structure active.
-SOURCES = {"common": ["app.py", "core/ui.py", "core/runner.py"],
+SOURCES = {"common": ["app.py", "core/ui.py", "core/runner.py", "core/ad_api.py"],
            **{key: [f"structures/{key}.py"] for key in STRUCTURES}}
 # Cles construites dynamiquement (format_func) : non detectees par la recherche de T("...").
 DYNAMIC = {

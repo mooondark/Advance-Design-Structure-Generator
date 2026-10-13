@@ -1,12 +1,15 @@
 """
 Client HTTP pour l'API REST Advance Design (Graitec).
-Aucune dependance Streamlit ni i18n. Reference des commandes : API Data/swagger.json.
+Aucune dependance Streamlit ; les messages d'erreur passent par core.i18n.
+Reference des commandes : API Data/swagger.json.
 """
 
 import socket
 import urllib.parse
 
 import requests
+
+from core.i18n import T
 
 # Session HTTP réutilisée : keep-alive + pooling de connexions.
 # Évite un handshake TCP par requête (des centaines lors d'une génération).
@@ -40,14 +43,14 @@ def check_port(host: str) -> None:
     hostname = parsed.hostname
     port     = parsed.port
     if hostname is None:
-        raise ValueError(f"URL invalide : {host}")
+        raise ValueError(T("err_url_invalide", host=host))
     if port is None:
         port = 443 if parsed.scheme == "https" else 80
     try:
         # create_connection essaie toutes les adresses getaddrinfo (IPv4 + IPv6)
         socket.create_connection((hostname, port), timeout=3).close()
     except OSError as e:
-        raise ConnectionError(f"Port inaccessible : {hostname}:{port}") from e
+        raise ConnectionError(T("err_port_inaccessible", hostname=hostname, port=port)) from e
 
 
 def _check(response: requests.Response, label: str) -> dict:
@@ -60,14 +63,14 @@ def _check(response: requests.Response, label: str) -> dict:
         response.raise_for_status()
     except requests.HTTPError as e:
         body = data if data is not None else response.text[:500]
-        raise RuntimeError(f"[{label}] HTTP {response.status_code} — {body}") from e
+        raise RuntimeError(T("err_http", label=label, status=response.status_code, body=body)) from e
 
     if data is None:
-        raise RuntimeError(f"[{label}] Réponse non-JSON — {response.text[:500]}")
+        raise RuntimeError(T("err_non_json", label=label, body=response.text[:500]))
     details = data.get("details", {})
     if not details.get("success", True):
         messages = "; ".join(d.get("message", "") for d in details.get("diagnostics", []))
-        raise RuntimeError(f"[{label}] Erreur API — {messages}")
+        raise RuntimeError(T("err_api", label=label, messages=messages))
     return data
 
 
