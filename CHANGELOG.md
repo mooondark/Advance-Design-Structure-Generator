@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4 - 2026-10-13
+- Un nouveau fichier ne peut plus porter le nom d'un fichier existant (message traduit, aucune generation)
+- Infobulle sur "Fichier existant" : les elements sont ajoutes au projet, faire une copie avant de generer
+- start.bat : Streamlit limite aux versions 1.64 a 1.x, plus de mise a jour automatique a chaque lancement
+- Messages d'erreur de l'API traduits (FR/EN/PL/ES/PT)
+- Plus d'attente inutile apres un echec de connexion a l'API
+- Code de l'apercu 3D factorise (core/util.py)
+
 ## 2.3 - 2026-09-30
 - Nouvelles langues : espagnol (ES) et portugais europeen (PT), avec les liens du site Graitec correspondants (/es/, /pt/)
 
