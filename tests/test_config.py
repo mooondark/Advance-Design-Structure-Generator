@@ -109,3 +109,9 @@ def test_save_config_keeps_hidden_default_key(tmp_path, monkeypatch):
     config.visible_structures(ALL, DEFAULT_HIDDEN)
     config.save_config(language="es")
     assert "View_Convoyeur = False" in path.read_text(encoding="utf-8")
+
+
+def test_all_hidden_falls_back_to_default_visible_only(tmp_path, monkeypatch):
+    _cfg(tmp_path, monkeypatch,
+         "[General]\nView_SteelFrame = 0\nView_Antenna = 0\nView_ConcreteFrame = 0\n")
+    assert config.visible_structures(ALL, DEFAULT_HIDDEN) == KEYS

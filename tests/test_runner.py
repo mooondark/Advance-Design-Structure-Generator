@@ -53,3 +53,17 @@ def test_summary_colons_aligned_with_long_labels(monkeypatch):
     summary = [l for l in lines if l.startswith("  ") and ": " in l]
     assert len(summary) == 2
     assert len({l.index(": ") for l in summary}) == 1
+
+
+def test_unreachable_api_does_not_close_a_project(monkeypatch):
+    calls = _patch(monkeypatch)
+
+    def down(host):
+        raise ConnectionError("Port inaccessible")
+
+    monkeypatch.setattr(ad_api, "check_port", down)
+    lines = []
+    ok = run_generation(SimpleNamespace(build=lambda host, p, log: []), {"fto": "x", "nouveau_projet": True},
+                        "http://h", lines.append)
+    assert ok is False and calls == []
+    assert any("log_erreur" in l for l in lines)

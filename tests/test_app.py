@@ -269,3 +269,39 @@ def test_convoyeur_language_round_trip(cfg_file):
     _switch_language(at, "pl", "fr")
     assert at.session_state["structure"] == "convoyeur"
     assert at.selectbox(key="structure@fr").value == "convoyeur"
+
+
+@pytest.fixture
+def mocked_generation(cfg_file, monkeypatch, tmp_path):
+    called = []
+    monkeypatch.setattr(runner, "run_generation", lambda s, p, host, log: called.append(p["fto"]) or True)
+    monkeypatch.chdir(tmp_path)
+    return called
+
+
+def test_new_project_refuses_existing_file(mocked_generation, tmp_path):
+    (tmp_path / "deja.fto").write_text("", encoding="utf-8")
+    at = _run()
+    at.text_input(key="project.name").set_value("deja").run()
+    at.button(key="generate").click().run()
+    assert len(at.error) == 1 and "deja.fto" in at.error[0].value and "[" not in at.error[0].value[:1]
+    assert mocked_generation == []
+
+
+def test_new_project_with_free_name_generates(mocked_generation):
+    at = _run()
+    at.text_input(key="project.name").set_value("libre").run()
+    at.button(key="generate").click().run()
+    assert len(at.error) == 0 and len(mocked_generation) == 1
+
+
+def test_existing_project_mode_is_not_blocked_and_warns(mocked_generation, tmp_path):
+    target = tmp_path / "existant.fto"
+    target.write_text("", encoding="utf-8")
+    at = _run()
+    at.checkbox(key="project.new").set_value(False).run()
+    assert "[" not in at.text_input(key="project.fto").help
+    assert at.text_input(key="project.fto").help
+    at.text_input(key="project.fto").set_value(str(target)).run()
+    at.button(key="generate").click().run()
+    assert len(at.error) == 0 and mocked_generation == [str(target)]

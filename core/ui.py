@@ -227,7 +227,8 @@ def project_panel():
         if ss["project.new"]:
             tc.text_input(T("ui_nouveau_nom"), key="project.name")
         else:
-            tc.text_input(T("ui_fichier_existant"), key="project.fto", placeholder=r"C:\Projets\mon_projet.fto")
+            tc.text_input(T("ui_fichier_existant"), key="project.fto", placeholder=r"C:\Projets\mon_projet.fto",
+                          help=T("ui_fichier_existant_help"))
         bc.button("", key="browse_fto", icon=":material/folder_open:", help=T("ui_btn_parcourir"),
                   width="stretch", on_click=_browse)
     with pj3:
@@ -299,6 +300,10 @@ def project_path():
         if not nom.lower().endswith(".fto"):
             nom += ".fto"
         path = os.path.join(os.getcwd(), nom)
+        if os.path.exists(path):
+            # Les applications d'origine refusaient ce cas : AD accepte NewProject sur un nom existant sans erreur.
+            st.error(T("ui_projet_existe", path=os.path.normpath(path)))
+            return None
     else:
         path = ss["project.fto"].strip()
         if not path:

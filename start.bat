@@ -37,7 +37,7 @@ if defined NODEP (
 ) else (
     echo.
     echo  Checking dependencies...
-    python -m pip install --quiet --upgrade streamlit requests plotly
+    python -m pip install --quiet "streamlit>=1.64,<2" requests plotly
     if errorlevel 1 (
         echo.
         echo  [ERROR] Unable to install the dependencies.

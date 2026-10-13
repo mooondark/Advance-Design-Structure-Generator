@@ -6,6 +6,7 @@ import streamlit as st
 from core import ad_api
 from core.i18n import T
 from core.layout import choice, section
+from core.util import lines3d
 
 KEY = "steel_frame"
 TITLE_KEY = "structure_steel_frame"
@@ -124,18 +125,9 @@ def preview(p):
 
     portiques, pannes, supports = _wireframe_segments(p)
 
-    def lines(segs, color, width):
-        xs, ys, zs = [], [], []
-        for a, b in segs:
-            xs += [a[0], b[0], None]
-            ys += [a[1], b[1], None]
-            zs += [a[2], b[2], None]
-        return go.Scatter3d(x=xs, y=ys, z=zs, mode="lines",
-                            line=dict(color=color, width=width), hoverinfo="skip")
-
     fig = go.Figure([
-        lines(portiques, "#4A7FE0", 5),
-        lines(pannes, "#2CB67D", 2),
+        lines3d(portiques, "#4A7FE0", 5),
+        lines3d(pannes, "#2CB67D", 2),
         go.Scatter3d(x=[s[0] for s in supports], y=[s[1] for s in supports], z=[s[2] for s in supports],
                      mode="markers", hoverinfo="skip",
                      marker=dict(size=4, color="#E8A840", symbol="diamond")),

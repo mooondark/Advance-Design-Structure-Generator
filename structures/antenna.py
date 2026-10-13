@@ -6,6 +6,7 @@ import streamlit as st
 from core import ad_api
 from core.i18n import T
 from core.layout import choice, section
+from core.util import lines3d, parse_floats
 
 KEY = "antenna"
 TITLE_KEY = "structure_antenna"
@@ -275,14 +276,10 @@ def generate_antenna_tower(height: float, base_type: str, num_levels: int,
     }
 
 
-def parse_heights(text):
-    return [float(x) for x in (text or "").split(",") if x.strip()]
-
-
 def _payload(p):
     return generate_antenna_tower(
         float(p["height"]), p["base_type"], int(p["num_levels"]), float(p["base_size"]),
-        int(p["guy_levels"]), parse_heights(p["guy_heights"]), float(p["anchor_distance"]),
+        int(p["guy_levels"]), parse_floats(p["guy_heights"]), float(p["anchor_distance"]),
     )
 
 
@@ -325,16 +322,7 @@ def preview(p):
     markers = [(m["position"]["x"], m["position"]["y"], m["position"]["z"])
                for m in payload["supports"] + payload["anchors"]]
 
-    def lines(segs, color, width):
-        xs, ys, zs = [], [], []
-        for a, b in segs:
-            xs += [a[0], b[0], None]
-            ys += [a[1], b[1], None]
-            zs += [a[2], b[2], None]
-        return go.Scatter3d(x=xs, y=ys, z=zs, mode="lines",
-                            line=dict(color=color, width=width), hoverinfo="skip")
-
-    data = [lines(struct, "#4A7FE0", 3), lines(guys, "#E8A840", 1), go.Scatter3d(
+    data = [lines3d(struct, "#4A7FE0", 3), lines3d(guys, "#E8A840", 1), go.Scatter3d(
         x=[m[0] for m in markers], y=[m[1] for m in markers], z=[m[2] for m in markers],
         mode="markers", hoverinfo="skip", marker=dict(size=3, color="#2CB67D", symbol="diamond"),
     )]
@@ -372,7 +360,7 @@ def validate(p):
 
     # Parse meme sans haubans : build() parse toujours le champ.
     try:
-        gh = parse_heights(p["guy_heights"])
+        gh = parse_floats(p["guy_heights"])
     except ValueError:
         raise ValueError(T("ui_guy_heights_invalid"))
     gl = int(p["guy_levels"])

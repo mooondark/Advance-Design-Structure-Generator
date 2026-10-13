@@ -77,7 +77,7 @@ def visible_structures(structure_keys, defaults=None):
     """Structures a afficher d'apres les cles View_<Nom> de config.ini (true/false, 1/0...).
     defaults : {cle: bool} valeur par defaut par structure (True si absente).
     Cle absente : creee avec le defaut de la structure ; valeur illisible : defaut de la structure ;
-    tout masque : tout est affiche."""
+    tout masque : on affiche les structures visibles par defaut (sinon toutes)."""
     defaults = defaults or {}
     raw = _read_raw()
     created = False
@@ -93,4 +93,4 @@ def visible_structures(structure_keys, defaults=None):
             visible.append(key)
     if created:
         _write_raw(raw)
-    return visible or list(structure_keys)
+    return visible or [k for k in structure_keys if defaults.get(k, True)] or list(structure_keys)

@@ -7,6 +7,7 @@ from core import ad_api
 from core.concrete import parse_section, section_height
 from core.i18n import T
 from core.layout import choice, section
+from core.util import lines3d, parse_floats
 
 KEY = "concrete_frame"
 TITLE_KEY = "structure_concrete_frame"
@@ -37,12 +38,8 @@ def _k(name):
     return f"{KEY}.{name}"
 
 
-def parse_heights(text):
-    return [float(x) for x in (text or "").split(",") if x.strip()]
-
-
 def heights(p):
-    he = parse_heights(p["He"])
+    he = parse_floats(p["He"])
     return he * int(p["Ne"]) if len(he) == 1 else he
 
 
@@ -82,7 +79,7 @@ def _geometry(p):
 
 def _refill_heights():
     try:
-        first = parse_heights(st.session_state[_k("He")])[0]
+        first = parse_floats(st.session_state[_k("He")])[0]
     except (ValueError, IndexError):
         first = 3.0
     st.session_state[_k("He")] = ",".join([str(first)] * int(st.session_state[_k("Ne")]))
@@ -108,20 +105,11 @@ def preview(p):
 
     columns, beams, slabs, supports, _z = _geometry(p)
 
-    def lines(segs, color, width):
-        xs, ys, zs = [], [], []
-        for a, b in segs:
-            xs += [a[0], b[0], None]
-            ys += [a[1], b[1], None]
-            zs += [a[2], b[2], None]
-        return go.Scatter3d(x=xs, y=ys, z=zs, mode="lines",
-                            line=dict(color=color, width=width), hoverinfo="skip")
-
     slab_edges = [(s["pts"][i], s["pts"][(i + 1) % 4]) for s in slabs for i in range(4)]
     fig = go.Figure([
-        lines([(c["start"], c["end"]) for c in columns], "#4A7FE0", 5),
-        lines([(b["start"], b["end"]) for b in beams], "#2CB67D", 3),
-        lines(slab_edges, "#9AA4B2", 1),
+        lines3d([(c["start"], c["end"]) for c in columns], "#4A7FE0", 5),
+        lines3d([(b["start"], b["end"]) for b in beams], "#2CB67D", 3),
+        lines3d(slab_edges, "#9AA4B2", 1),
         go.Scatter3d(x=[s[0] for s in supports], y=[s[1] for s in supports], z=[s[2] for s in supports],
                      mode="markers", hoverinfo="skip",
                      marker=dict(size=4, color="#E8A840", symbol="diamond")),
@@ -152,7 +140,7 @@ def validate(p):
     if p["TypeAppui"] not in APPUIS: errors.append(T("val_appui"))
 
     try:
-        he = parse_heights(p["He"])
+        he = parse_floats(p["He"])
     except ValueError:
         raise ValueError(T("ui_he_invalid"))
     if len(he) not in (1, int(p["Ne"])):

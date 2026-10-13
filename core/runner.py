@@ -5,6 +5,7 @@ SEP = "=" * 52
 
 
 def run_generation(structure, p, host, log):
+    reachable = False  # evite de fermer un projet jamais ouvert (et d'attendre 15 s) si l'API ne repond pas
     try:
         log(SEP)
         log(T("log_fichier", path=p["fto"]))
@@ -13,6 +14,7 @@ def run_generation(structure, p, host, log):
 
         log(T("log_verif_port"))
         ad_api.check_port(host)
+        reachable = True
         log(T("log_api_ok"))
 
         if p["nouveau_projet"]:
@@ -40,5 +42,6 @@ def run_generation(structure, p, host, log):
         return True
     except Exception as ex:
         log(T("log_erreur", ex=ex))
-        ad_api.close_project(host)
+        if reachable:
+            ad_api.close_project(host)
         return False
