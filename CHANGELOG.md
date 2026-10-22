@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.5 - 2026-10-22
+- API 1.27.1 et plus : licence et etat du service verifies (GetStatus) avant toute generation ; en cas de probleme, rien n'est genere et le message du serveur est affiche (traduit FR/EN/PL/ES/PT)
+- Versions anterieures de l'API : pas de verification, comportement inchange
+- L'enregistrement du projet a la fermeture est verifie : un echec d'enregistrement est signale au lieu d'afficher un succes
+- En cas d'erreur pendant la generation, le projet est ferme sans enregistrer (CloseProjectWithoutSave) : un modele partiel n'ecrase plus le fichier
+- Delai d'attente de la fermeture porte a 120 s (elle inclut desormais l'enregistrement)
+
 ## 2.4 - 2026-10-13
 - Un nouveau fichier ne peut plus porter le nom d'un fichier existant (message traduit, aucune generation)
 - Infobulle sur "Fichier existant" : les elements sont ajoutes au projet, faire une copie avant de generer

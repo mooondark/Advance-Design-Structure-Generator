@@ -7,9 +7,11 @@ from core.runner import run_generation
 def _patch(monkeypatch):
     calls = []
     monkeypatch.setattr(ad_api, "check_port", lambda host: calls.append("port"))
+    monkeypatch.setattr(ad_api, "check_service", lambda host: None)
     monkeypatch.setattr(ad_api, "new_project", lambda host, fto: calls.append("new"))
     monkeypatch.setattr(ad_api, "open_project", lambda host, fto: calls.append("open"))
-    monkeypatch.setattr(ad_api, "close_project", lambda host: calls.append("close"))
+    monkeypatch.setattr(ad_api, "close_project",
+                        lambda host, save=True: calls.append("close" if save else "discard"))
     return calls
 
 
@@ -40,7 +42,23 @@ def test_error_is_logged_and_project_closed(monkeypatch):
     ok = run_generation(SimpleNamespace(build=boom), {"fto": "x", "nouveau_projet": True},
                         "http://h", lines.append)
     assert ok is False
-    assert calls[-1] == "close"
+    assert calls[-1] == "discard"
+    assert any("log_erreur" in l for l in lines)
+
+
+def test_save_failure_is_reported(monkeypatch):
+    calls = _patch(monkeypatch)
+
+    def save_ko(host, save=True):
+        calls.append("close" if save else "discard")
+        if save:
+            raise RuntimeError("PROJECT_SAVE_FAILED")
+
+    monkeypatch.setattr(ad_api, "close_project", save_ko)
+    lines = []
+    ok = run_generation(SimpleNamespace(build=lambda host, p, log: []), {"fto": "x", "nouveau_projet": True},
+                        "http://h", lines.append)
+    assert ok is False and calls == ["port", "new", "close", "discard"]
     assert any("log_erreur" in l for l in lines)
 
 
@@ -66,4 +84,18 @@ def test_unreachable_api_does_not_close_a_project(monkeypatch):
     ok = run_generation(SimpleNamespace(build=lambda host, p, log: []), {"fto": "x", "nouveau_projet": True},
                         "http://h", lines.append)
     assert ok is False and calls == []
+    assert any("log_erreur" in l for l in lines)
+
+
+def test_service_unavailable_generates_nothing(monkeypatch):
+    calls = _patch(monkeypatch)
+
+    def no_licence(host):
+        raise RuntimeError("Licence_Unavailable")
+
+    monkeypatch.setattr(ad_api, "check_service", no_licence)
+    lines = []
+    ok = run_generation(SimpleNamespace(build=lambda host, p, log: calls.append("build")),
+                        {"fto": "x", "nouveau_projet": True}, "http://h", lines.append)
+    assert ok is False and calls == ["port"]
     assert any("log_erreur" in l for l in lines)

@@ -4,6 +4,7 @@ Aucune dependance Streamlit ; les messages d'erreur passent par core.i18n.
 Reference des commandes : API Data/swagger.json.
 """
 
+import re
 import socket
 import urllib.parse
 
@@ -74,6 +75,24 @@ def _check(response: requests.Response, label: str) -> dict:
     return data
 
 
+def check_service(host):
+    # GetStatus existe depuis l'API 1.27.1 ; avant (GetVersion absent ou plus ancien), pas de verification.
+    try:
+        resp = _SESSION.get(f"{host}/api/Service/GetVersion", timeout=10)
+        version = tuple(int(n) for n in re.findall(r"\d+", resp.json())[:3]) if resp.status_code == 200 else ()
+    except (requests.RequestException, ValueError, TypeError):
+        version = ()
+    if version < (1, 27, 1):
+        return
+    try:
+        status = _SESSION.get(f"{host}/api/Service/GetStatus", timeout=60).json()
+    except (requests.RequestException, ValueError) as e:
+        raise RuntimeError(T("err_service", status="GetStatus", message=e)) from e
+    if not status.get("canRun"):
+        message = status.get("message") or (status.get("licence") or {}).get("errorMessage") or ""
+        raise RuntimeError(T("err_service", status=status.get("status"), message=message))
+
+
 def new_project(host, fto_path):
     resp = _SESSION.post(
         f"{host}/api/Model/management/NewProject",
@@ -90,9 +109,13 @@ def open_project(host, fto_path):
     _check(resp, "OpenProject")
 
 
-def close_project(host):
+def close_project(host, save=True):
+    # CloseProject enregistre puis ferme : son echec doit remonter, sinon le modele est perdu sans le dire.
+    if save:
+        _check(_SESSION.post(f"{host}/api/Model/management/CloseProject", json={}, timeout=120), "CloseProject")
+        return
     try:
-        _SESSION.post(f"{host}/api/Model/management/CloseProject", json={}, timeout=15)
+        _SESSION.post(f"{host}/api/Model/management/CloseProjectWithoutSave", json={}, timeout=15)
     except Exception:
         pass
 

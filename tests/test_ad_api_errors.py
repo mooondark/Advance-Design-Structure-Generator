@@ -50,3 +50,56 @@ def test_port_errors_are_translated():
         ad_api.check_port("pas une url")
     with pytest.raises(ConnectionError, match="Port unreachable: 127.0.0.1:1"):
         ad_api.check_port("http://127.0.0.1:1")
+
+
+def test_close_project_raises_when_save_fails(monkeypatch):
+    _lang("en")
+    posted = []
+    ko = _R(200, {"details": {"success": False, "diagnostics": [{"message": "PROJECT_SAVE_FAILED"}]}})
+    monkeypatch.setattr(ad_api._SESSION, "post", lambda url, **kw: posted.append(url) or ko)
+    with pytest.raises(RuntimeError, match="PROJECT_SAVE_FAILED"):
+        ad_api.close_project("http://h")
+    ad_api.close_project("http://h", save=False)
+    assert posted[0].endswith("/CloseProject") and posted[1].endswith("/CloseProjectWithoutSave")
+
+
+def _service(monkeypatch, version, status=None):
+    urls = []
+
+    def get(url, **kw):
+        urls.append(url)
+        if url.endswith("GetVersion"):
+            return _R(200, version) if version else _R(404, None, "Not Found")
+        if status is None:
+            raise requests.ConnectionError("coupure")
+        return _R(200, status)
+
+    monkeypatch.setattr(ad_api._SESSION, "get", get)
+    return urls
+
+
+@pytest.mark.parametrize("version", [None, "1.27.0", "1.9.99.1"])
+def test_check_service_skipped_before_1_27_1(monkeypatch, version):
+    urls = _service(monkeypatch, version)
+    ad_api.check_service("http://h")
+    assert not any(u.endswith("GetStatus") for u in urls)
+
+
+def test_check_service_ok(monkeypatch):
+    _service(monkeypatch, "1.27.1.0", {"status": "Ok", "canRun": True})
+    ad_api.check_service("http://h")
+
+
+def test_check_service_refuses_without_licence(monkeypatch):
+    _lang("en")
+    _service(monkeypatch, "1.28.0", {"status": "Licence_Unavailable", "canRun": False,
+                                     "message": None, "licence": {"errorMessage": "No seat available"}})
+    with pytest.raises(RuntimeError, match=r"Licence_Unavailable.*No seat available"):
+        ad_api.check_service("http://h")
+
+
+def test_check_service_error_on_status_call(monkeypatch):
+    _lang("fr")
+    _service(monkeypatch, "1.27.1")
+    with pytest.raises(RuntimeError, match="Service API indisponible"):
+        ad_api.check_service("http://h")

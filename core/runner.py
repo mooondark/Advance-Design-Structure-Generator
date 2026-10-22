@@ -14,6 +14,7 @@ def run_generation(structure, p, host, log):
 
         log(T("log_verif_port"))
         ad_api.check_port(host)
+        ad_api.check_service(host)
         reachable = True
         log(T("log_api_ok"))
 
@@ -43,5 +44,6 @@ def run_generation(structure, p, host, log):
     except Exception as ex:
         log(T("log_erreur", ex=ex))
         if reachable:
-            ad_api.close_project(host)
+            # Ne pas enregistrer un modele partiel dans le fichier de l'utilisateur.
+            ad_api.close_project(host, save=False)
         return False
